@@ -8,6 +8,7 @@ Created on Thu Mar 19 16:20:26 2020
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+plt.style.use('ggplot')
 
 def load_data(DATA_PATH):
     df = pd.read_csv(DATA_PATH)
@@ -39,3 +40,4 @@ def plot_rts(df):
 if __name__ == '__main__':
     DATA_PATH = '/Users/mac/Desktop/ML_Quant/data'
     df = load_data(DATA_PATH + '/881001.csv')
+    plot_rts(df)

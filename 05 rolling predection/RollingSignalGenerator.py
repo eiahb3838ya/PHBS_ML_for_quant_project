@@ -12,14 +12,19 @@ import  sys, os
 from tqdm import notebook 
 from tqdm import tqdm
 
-
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
 
 import matplotlib.pyplot as plt
 
-from naiveSelection import naiveSelection
 from MyDecisionTreeClassifier import MyDecisionTreeClassifier
+
+from FeatureEngineering import FeatureEngineering
+
+from naiveSelection import naiveSelection
+from treeSelection import treeSelection
+from SVCL1Selection import SVCL1Selection
+from varianceThresholdSelection import varianceThresholdSelection
 
 #%%
 
@@ -44,7 +49,7 @@ class RollingSignalGenerator:
             print(e.args[0])
             
     def generateOnePeriodSignal(self, X_train, y_train, X_test, y_test, featureSelectionFunction, predictModel):
-        X_train_selected, X_test_selected = featureSelectionFunction(X_train, y_train, X_test, y_test)
+        X_train_selected, X_test_selected = featureSelectionFunction(X_train, y_train, X_test, y_test,method = 'Tree')
         # fit predict
         model = predictModel()
         model.fit(X_train_selected, y_train)
@@ -104,25 +109,28 @@ class RollingSignalGenerator:
         
 #%%
 if __name__ =='__main__':
-    ROOT = '../'
-    DATA_PATH = os.path.join(os.path.join(ROOT, '04 select feature and build model'), 'data')
-    CLEANED_FACTOR_PATH = os.path.join(ROOT, '03 data process')
-    rawDf = pd.read_pickle(os.path.join(CLEANED_FACTOR_PATH, 'cleanedFactor.pkl'))
+    # ROOT = '../'
+    # DATA_PATH = os.path.join(os.path.join(ROOT, '04 select feature and build model'), 'data')
+    # CLEANED_FACTOR_PATH = os.path.join(ROOT, '03 data process')
+    ROOT =  '/Users/mac/Desktop/ML_Quant/data'
+    rawDf = pd.read_pickle(os.path.join(ROOT, 'cleanedFactor.pkl'))
+    getFeatures = FeatureEngineering(ROOT)
+    features = getFeatures.combine_feature()
+    rawDf = pd.merge(features,rawDf,on = 'date')
     rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1].astype(bool)
     
-    MIN_TRAIN_DAYS = 1800
-    TRAIN_MODE = 'extention'
+    MIN_TRAIN_DAYS = 1600
+    TRAIN_MODE = 'extension'
 #    predictModel = DecisionTreeClassifier
     recordModels = True
-    selector = naiveSelection
+    selector = SVCL1Selection
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)
     outputPrediction, models = sig.generateSignal(predictModel = MyDecisionTreeClassifier, featureSelectionFunction = selector)
 #%%
-    sys.path.append(os.path.join(ROOT, '04 select feature and build model'))
     from load_data import load_data, plot_rts
-    windADf = load_data(DATA_PATH + '/881001.csv')
+    windADf = load_data(ROOT + '/881001.csv')
     indexClose = windADf.loc[:, ['date', 'close']].set_index('date')
     indexClose = indexClose[outputPrediction.index[0]:]
 #%%
@@ -132,13 +140,6 @@ if __name__ =='__main__':
     plt.scatter(indexClose.loc[outputPrediction.index[outputPrediction]].index, indexClose.loc[outputPrediction.index[outputPrediction]], marker = '^', color = 'r', s = 8, alpha = 0.3)
     plt.scatter(indexClose.loc[outputPrediction.index[~outputPrediction]].index, indexClose.loc[outputPrediction.index[~outputPrediction]], color = 'g', s = 8 , alpha = 0.3)
     plt.show()
-        
-        
-    
-            
-
-        
-            
         
         
     

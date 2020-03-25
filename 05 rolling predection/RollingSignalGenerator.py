@@ -49,7 +49,7 @@ class RollingSignalGenerator:
             print(e.args[0])
             
     def generateOnePeriodSignal(self, X_train, y_train, X_test, y_test, featureSelectionFunction, predictModel):
-        X_train_selected, X_test_selected = featureSelectionFunction(X_train, y_train, X_test, y_test,method = 'Tree')
+        X_train_selected, X_test_selected = featureSelectionFunction(X_train, y_train, X_test, y_test,method = True)
         # fit predict
         model = predictModel()
         model.fit(X_train_selected, y_train)
@@ -88,7 +88,6 @@ class RollingSignalGenerator:
             
             y_predictSeries, model = self.generateOnePeriodSignal(X_train, y_train, X_test, y_test,\
                                                                   featureSelectionFunction, predictModel)
-            
             #  concat outputs
             outputPrediction = pd.concat([outputPrediction, y_predictSeries])    
             if recordModels:
@@ -120,7 +119,7 @@ if __name__ =='__main__':
     rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1].astype(bool)
     
     MIN_TRAIN_DAYS = 1600
-    TRAIN_MODE = 'extension'
+    TRAIN_MODE = 'rolling'
 #    predictModel = DecisionTreeClassifier
     recordModels = True
     selector = SVCL1Selection

@@ -1,32 +1,21 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Mar 23 12:56:45 2020
+Created on Wed Mar 25 19:41:14 2020
 
-@author: Evan
+@author: Trista
 """
+from sklearn import preprocessing
 import pandas as pd
 import os
 from FeatureEngineering import FeatureEngineering
-from sklearn.model_selection import train_test_split
-from sklearn import preprocessing
-from sklearn.feature_selection import SelectFromModel
-from sklearn.svm import LinearSVC
-from sklearn.feature_selection import VarianceThreshold
-from sklearn.linear_model import LassoCV
-import numpy as np
-from sklearn import linear_model
-from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.feature_selection import RFE
-from sklearn.svm import LinearSVC
-from sklearn.feature_selection import SelectFromModel
-from sklearn.ensemble import ExtraTreesClassifier
 import warnings
 warnings.filterwarnings('ignore')
 
-def naiveSelection(X_train, X_test, y_train, y_test, method = None, returnCoef = False):
+def varianceThresholdSelection(X_train, X_test, y_train, y_test, method = None,returnCoef = False):
     
     '''
-    do not selection,just transfer to norm 
+    choose the model = 'VarianceThreshold'
     fit any feature_selection model with the X_train, y_train
     transform the X_train, X_test with the model
     do not use the X_test to build feature selection model
@@ -41,19 +30,25 @@ def naiveSelection(X_train, X_test, y_train, y_test, method = None, returnCoef =
         quantile_transformer = preprocessing.QuantileTransformer(output_distribution = 'normal',
                                                                  random_state = 0)
         item = quantile_transformer.fit_transform(item).copy()
-    
-    coef = pd.Series()
-    featureName = X_train.columns.tolist()
+        
+        threshold = 0.8
+        coef = pd.Series(X_train.var(),index = X_train.columns)
+        selectedX_train = (coef >= threshold * (1-threshold))
+        selectedX_train = pd.DataFrame(selectedX_train)
+        fs_X_name = selectedX_train[selectedX_train[0] == True].index.tolist()
+        X_train = X_train[fs_X_name]
+        X_test = X_test[fs_X_name]
     
     if method == True:
-       print('The total feature number is '+ str(X_train.shape[1]))
-       print('The selected feature name is '+ str(featureName))
-       
+        print('The total feature number is '+ str(len(fs_X_name)))
+        print('The selected feature name is ' + str(fs_X_name))
+        
     if not returnCoef:
         return(X_train, X_test)
     else:
         return(X_train, X_test, coef)
     
+#%%just for test 
 def split_train_test_data(X,y,test_size):
     num_train = int(len(X) - len(X) * test_size)
     X_train = X.iloc[:num_train,:]
@@ -72,5 +67,5 @@ if __name__ == '__main__':
     rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1].astype(bool)
 
     X_train, X_test, y_train, y_test = split_train_test_data(rawXs,rawYs,test_size = 0.3)
-    X_train, X_test = naiveSelection(X_train, X_test, y_train, y_test, method = True, returnCoef = False)
+    X_train, X_test = varianceThresholdSelection(X_train, X_test, y_train, y_test,method = True, returnCoef = False)
     

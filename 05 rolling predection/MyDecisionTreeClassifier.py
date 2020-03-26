@@ -6,6 +6,7 @@ Created on Mon Mar 23 13:26:29 2020
 """
 
 from sklearn.tree import DecisionTreeClassifier
+from sklearn import tree
 
 class MyDecisionTreeClassifier:
     def __init__(self):

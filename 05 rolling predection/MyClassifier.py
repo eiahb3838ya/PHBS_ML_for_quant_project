@@ -11,7 +11,7 @@ import numpy as np
 from sklearn.naive_bayes import GaussianNB
 from sklearn import neighbors
 from sklearn.neural_network import MLPClassifier
-
+from parametersRepo import *
 
 #%% LogisticRegression
 class MyLogisticRegClassifier:
@@ -58,11 +58,10 @@ class MyKNNClassifier:
         
     def getPara(self):
         # do some how cv or things to decide the hyperparameter
-        n_neighbors = 15
-        weights = 'uniform'
         
-        return({'n_neighbors':n_neighbors,
-                'weights':weights})
+        # n_neighbors = 15
+        # weights = 'uniform'
+        return(paraKNN)
         
     def fit(self, X, y):
         # do what ever plot or things you like 
@@ -72,7 +71,7 @@ class MyKNNClassifier:
     def predict(self, X):
         return(self.model.predict(X))
     
-#%%
+#%% NeuralNetwork
 class MyNeuralNetworkClassifier:
     def __init__(self):
         self.parameter = self.getPara()
@@ -83,10 +82,27 @@ class MyNeuralNetworkClassifier:
         
     def getPara(self):
         # do some how cv or things to decide the hyperparameter
-        return({'solver':'lbfgs',
-                'alpha':1e-5,
-                'hidden_layer_sizes':(5,2),
-                'random_state':1})
+        return(paraNeuralNetwork)
+        
+    def fit(self, X, y):
+        # do what ever plot or things you like 
+        # just like your code
+        return(self.model.fit(X, y))
+        
+    def predict(self, X):
+        return(self.model.predict(X))
+    
+#%%Perceptron
+from sklearn.linear_model import Perceptron
+class MyPerceptronClassifier:
+    def __init__(self):
+        self.parameter = self.getPara()
+        self.model = Perceptron(tol = self.parameter['tol'],
+                                random_state = self.parameter['random_state'])
+        
+    def getPara(self):
+        # do some how cv or things to decide the hyperparameter
+        return(paraPerceptron)
         
     def fit(self, X, y):
         # do what ever plot or things you like 

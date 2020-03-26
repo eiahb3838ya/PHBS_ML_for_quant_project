@@ -6,14 +6,11 @@ Created on Mon Mar 23 12:56:45 2020
 """
 import pandas as pd
 import os
-#from FeatureEngineering import FeatureEngineering
-from sklearn.model_selection import train_test_split
-
 from sklearn import preprocessing
 import warnings
 warnings.filterwarnings('ignore')
 
-def naiveSelection(X_train,y_train ,X_test , y_test, method = None, returnCoef = False):
+def naiveSelection(X_train, y_train, X_test, y_test, method = None, returnCoef = False):
     
     '''
     do not selection,just transfer to norm 
@@ -26,11 +23,13 @@ def naiveSelection(X_train,y_train ,X_test , y_test, method = None, returnCoef =
     return the coef or the score of each feature if asked
     
     '''
-    #transform to norm 
-    for item in [X_train,X_test]:
-        quantile_transformer = preprocessing.QuantileTransformer(output_distribution = 'normal',
-                                                                 random_state = 0)
-        item = quantile_transformer.fit_transform(item).copy()
+    #transform to standardscaler
+    features = X_train.columns.tolist()
+    scaler = preprocessing.StandardScaler().fit(X_train)
+    X_train = pd.DataFrame(scaler.transform(X_train))
+    X_test = pd.DataFrame(scaler.transform(X_test))
+    X_train.columns = features
+    X_test.columns = features
     
     coef = pd.Series()
     featureName = X_train.columns.tolist()
@@ -44,13 +43,6 @@ def naiveSelection(X_train,y_train ,X_test , y_test, method = None, returnCoef =
     else:
         return(X_train, X_test, coef)
     
-def split_train_test_data(X,y,test_size):
-    num_train = int(len(X) - len(X) * test_size)
-    X_train = X.iloc[:num_train,:]
-    X_test = X.iloc[num_train:,:]
-    y_train = y[:num_train]
-    y_test = y[num_train:]
-    return X_train,X_test,y_train,y_test
 
 if __name__ == '__main__':
     from FeatureEngineering import FeatureEngineering
@@ -62,6 +54,13 @@ if __name__ == '__main__':
     # rawDf = rawDf.fillna(method = 'ffill')
     rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1].astype(bool)
 
-    X_train, X_test, y_train, y_test = split_train_test_data(rawXs,rawYs,test_size = 0.3)
-    X_train, X_test = naiveSelection(X_train, X_test, y_train, y_test, method = True, returnCoef = False)
+    def split_train_test_data(X,y,test_size):
+        num_train = int(len(X) - len(X) * test_size)
+        X_train = X.iloc[:num_train,:]
+        X_test = X.iloc[num_train:,:]
+        y_train = y[:num_train]
+        y_test = y[num_train:]
+        return X_train,y_train,X_test, y_test
+    X_train,y_train,X_test, y_test = split_train_test_data(rawXs,rawYs,test_size = 0.3)
+    X_train, X_test = naiveSelection(X_train,y_train,X_test, y_test, method = True, returnCoef = False)
     

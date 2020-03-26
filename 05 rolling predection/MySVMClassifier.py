@@ -3,26 +3,20 @@
 """
 Created on Thu Mar 26 01:40:36 2020
 
-@author: mac
+@author: Trista
 """
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 
 class MySVMClassifier:
     def __init__(self):
-        self.parameter = {'C':0,
-                          'gamma':0.2,
-                          'kernel':'rbf'}
-        self.model = SVC(C = self.parameter['C'],
-                         gamma = self.parameter['gamma'],
-                         kernel = self.parameter['kernel'])
+        self.parameter = None
+        self.model = None
         
     def getPara(self):
         # do some how cv or things to decide the hyperparameter
-        if self.parameter == {'C':0,
-                              'gamma':0.2,
-                              'kernel':'rbf'}:
-            print('Hi~ please first use fit function to get parameter :)\nThe following is default parameter which is not good enough for model.')
+        if self.parameter == None:
+            print('Hi~ please first use fit function to get parameter :)')
         else:
             print('haha! We already do CV and find the best parameters~')
             return self.parameter
@@ -32,7 +26,7 @@ class MySVMClassifier:
         # just like your code
         # Set the parameters by cross-validation
         tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3],
-                             'C': [1, 10]},]
+                             'C': [0.01, 0.1, 1]},]
         scores = ['precision']
         
         for score in scores:
@@ -55,7 +49,7 @@ class MySVMClassifier:
             print("Detailed classification report:")
             print("The model is trained on the full development set.")
             print("The scores are computed on the full evaluation set.")
-        return(clf.fit(X, y))
+        return(self.model.fit(X, y))
         
     def predict(self, X):
         return(self.model.predict(X))

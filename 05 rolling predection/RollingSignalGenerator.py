@@ -14,9 +14,16 @@ from tqdm import tqdm
 
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
+
 import matplotlib.pyplot as plt
 
 from MyDecisionTreeClassifier import MyDecisionTreeClassifier
+from MyClassifier import *
+from MySVMClassifier import MySVMClassifier
+
+
+from FeatureEngineering import FeatureEngineering
+
 from naiveSelection import naiveSelection
 from treeSelection import treeSelection
 from SVCL1Selection import SVCL1Selection
@@ -104,34 +111,29 @@ class RollingSignalGenerator:
         
 #%%
 if __name__ =='__main__':
-    ROOT = '../'
-    
-    sys.path.append(os.path.join(ROOT, '04 select feature and build model'))
-    from FeatureEngineering import FeatureEngineering
-    
-    DATA_PATH = os.path.join(os.path.join(ROOT, '04 select feature and build model'), 'data')
-    CLEANED_FACTOR_PATH = os.path.join(ROOT, '03 data process')
-
-    rawDf = pd.read_pickle(os.path.join(CLEANED_FACTOR_PATH, 'cleanedFactor.pkl'))
-    getFeatures = FeatureEngineering(DATA_PATH)
+    # ROOT = '../'
+    # DATA_PATH = os.path.join(os.path.join(ROOT, '04 select feature and build model'), 'data')
+    # CLEANED_FACTOR_PATH = os.path.join(ROOT, '03 data process')
+    ROOT =  '/Users/mac/Desktop/ML_Quant/data'
+    rawDf = pd.read_pickle(os.path.join(ROOT, 'cleanedFactor.pkl'))
+    getFeatures = FeatureEngineering(ROOT)
     features = getFeatures.combine_feature()
-    rawDf = pd.merge(features,rawDf,on = 'date').set_index('date')
+    rawDf = pd.merge(features,rawDf,on = 'date')
     rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1].astype(bool)
     
     MIN_TRAIN_DAYS = 1600
     TRAIN_MODE = 'rolling'
-#    predictModel = DecisionTreeClassifier
+    # predictModel = MyLogisticRegClassifier
     recordModels = True
     selector = SVCL1Selection
-    predictModel = MyDecisionTreeClassifier
+    myPredictModel = MyNaiveBayesClassifier
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)
-    outputPrediction, models = sig.generateSignal(predictModel = predictModel, featureSelectionFunction = selector)
-    
+    outputPrediction, models = sig.generateSignal(predictModel = myPredictModel, featureSelectionFunction = selector)
 #%%
     from load_data import load_data, plot_rts
-    windADf = load_data(DATA_PATH + '/881001.csv')
+    windADf = load_data(ROOT + '/881001.csv')
     indexClose = windADf.loc[:, ['date', 'close']].set_index('date')
     indexClose = indexClose[outputPrediction.index[0]:]
 #%%
@@ -141,15 +143,6 @@ if __name__ =='__main__':
     plt.scatter(indexClose.loc[outputPrediction.index[outputPrediction]].index, indexClose.loc[outputPrediction.index[outputPrediction]], marker = '^', color = 'r', s = 8, alpha = 0.3)
     plt.scatter(indexClose.loc[outputPrediction.index[~outputPrediction]].index, indexClose.loc[outputPrediction.index[~outputPrediction]], color = 'g', s = 8 , alpha = 0.3)
     plt.show()
-    
-    
-#%%
-    np.save('out', outputPrediction)
-    
-    outputPrediction.to_pickle('try.pkl')
-    aaa = np.load('out.npy')
-    
-    
         
         
     

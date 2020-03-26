@@ -6,7 +6,7 @@ Created on Mon Mar 23 12:56:45 2020
 """
 import pandas as pd
 import os
-from FeatureEngineering import FeatureEngineering
+#from FeatureEngineering import FeatureEngineering
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.feature_selection import SelectFromModel

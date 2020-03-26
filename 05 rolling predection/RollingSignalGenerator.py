@@ -12,11 +12,10 @@ import  sys, os
 from tqdm import notebook 
 from tqdm import tqdm
 
-
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
-
 import matplotlib.pyplot as plt
+
 
 from naiveSelection import naiveSelection
 from MyDecisionTreeClassifier import MyDecisionTreeClassifier
@@ -44,7 +43,7 @@ class RollingSignalGenerator:
             print(e.args[0])
             
     def generateOnePeriodSignal(self, X_train, y_train, X_test, y_test, featureSelectionFunction, predictModel):
-        X_train_selected, X_test_selected = featureSelectionFunction(X_train, y_train, X_test, y_test)
+        X_train_selected, X_test_selected = featureSelectionFunction(X_train, X_test, y_train ,y_test, method = 'Tree')
         # fit predict
         model = predictModel()
         model.fit(X_train_selected, y_train)
@@ -118,6 +117,7 @@ if __name__ =='__main__':
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)
+    
     outputPrediction, models = sig.generateSignal(predictModel = MyDecisionTreeClassifier, featureSelectionFunction = selector)
 #%%
     sys.path.append(os.path.join(ROOT, '04 select feature and build model'))
@@ -132,6 +132,15 @@ if __name__ =='__main__':
     plt.scatter(indexClose.loc[outputPrediction.index[outputPrediction]].index, indexClose.loc[outputPrediction.index[outputPrediction]], marker = '^', color = 'r', s = 8, alpha = 0.3)
     plt.scatter(indexClose.loc[outputPrediction.index[~outputPrediction]].index, indexClose.loc[outputPrediction.index[~outputPrediction]], color = 'g', s = 8 , alpha = 0.3)
     plt.show()
+    
+    
+#%%
+    np.save('out', outputPrediction)
+    
+    outputPrediction.to_pickle('try.pkl')
+    aaa = np.load('out.npy')
+    
+    
         
         
     

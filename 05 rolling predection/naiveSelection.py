@@ -8,12 +8,12 @@ import pandas as pd
 import os
 #from FeatureEngineering import FeatureEngineering
 from sklearn.model_selection import train_test_split
-from FeatureEngineering import FeatureEngineering
+
 from sklearn import preprocessing
 import warnings
 warnings.filterwarnings('ignore')
 
-def naiveSelection(X_train, X_test, y_train, y_test, method = None, returnCoef = False):
+def naiveSelection(X_train,y_train ,X_test , y_test, method = None, returnCoef = False):
     
     '''
     do not selection,just transfer to norm 
@@ -53,6 +53,7 @@ def split_train_test_data(X,y,test_size):
     return X_train,X_test,y_train,y_test
 
 if __name__ == '__main__':
+    from FeatureEngineering import FeatureEngineering
     ROOT =  '/Users/mac/Desktop/ML_Quant/data'
     rawDf = pd.read_pickle(os.path.join(ROOT, 'cleanedFactor.pkl'))
     getFeatures = FeatureEngineering(ROOT)

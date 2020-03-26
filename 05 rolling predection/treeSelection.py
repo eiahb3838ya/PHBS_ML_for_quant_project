@@ -14,9 +14,8 @@ from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.feature_selection import SelectFromModel
 import pandas as pd
 import os
-from FeatureEngineering import FeatureEngineering
 
-def treeSelection(X_train, X_test, y_train, y_test, method = None, returnCoef = False):
+def treeSelection(X_train,y_train ,X_test , y_test, method = None, returnCoef = False):
     '''
     choose the model = 'Tree'
     fit any feature_selection model with the X_train, y_train
@@ -57,6 +56,8 @@ def split_train_test_data(X,y,test_size):
     return X_train,X_test,y_train,y_test
 
 if __name__ == '__main__':
+    
+    from FeatureEngineering import FeatureEngineering
     ROOT =  '/Users/mac/Desktop/ML_Quant/data'
     rawDf = pd.read_pickle(os.path.join(ROOT, 'cleanedFactor.pkl'))
     getFeatures = FeatureEngineering(ROOT)

@@ -16,12 +16,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
 import matplotlib.pyplot as plt
 
-
-from naiveSelection import naiveSelection
 from MyDecisionTreeClassifier import MyDecisionTreeClassifier
-
-from FeatureEngineering import FeatureEngineering
-
 from naiveSelection import naiveSelection
 from treeSelection import treeSelection
 from SVCL1Selection import SVCL1Selection
@@ -109,14 +104,18 @@ class RollingSignalGenerator:
         
 #%%
 if __name__ =='__main__':
-    # ROOT = '../'
-    # DATA_PATH = os.path.join(os.path.join(ROOT, '04 select feature and build model'), 'data')
-    # CLEANED_FACTOR_PATH = os.path.join(ROOT, '03 data process')
-    ROOT =  '/Users/mac/Desktop/ML_Quant/data'
-    rawDf = pd.read_pickle(os.path.join(ROOT, 'cleanedFactor.pkl'))
-    getFeatures = FeatureEngineering(ROOT)
+    ROOT = '../'
+    
+    sys.path.append(os.path.join(ROOT, '04 select feature and build model'))
+    from FeatureEngineering import FeatureEngineering
+    
+    DATA_PATH = os.path.join(os.path.join(ROOT, '04 select feature and build model'), 'data')
+    CLEANED_FACTOR_PATH = os.path.join(ROOT, '03 data process')
+
+    rawDf = pd.read_pickle(os.path.join(CLEANED_FACTOR_PATH, 'cleanedFactor.pkl'))
+    getFeatures = FeatureEngineering(DATA_PATH)
     features = getFeatures.combine_feature()
-    rawDf = pd.merge(features,rawDf,on = 'date')
+    rawDf = pd.merge(features,rawDf,on = 'date').set_index('date')
     rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1].astype(bool)
     
     MIN_TRAIN_DAYS = 1600
@@ -124,14 +123,15 @@ if __name__ =='__main__':
 #    predictModel = DecisionTreeClassifier
     recordModels = True
     selector = SVCL1Selection
+    predictModel = MyDecisionTreeClassifier
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)
+    outputPrediction, models = sig.generateSignal(predictModel = predictModel, featureSelectionFunction = selector)
     
-    outputPrediction, models = sig.generateSignal(predictModel = MyDecisionTreeClassifier, featureSelectionFunction = selector)
 #%%
     from load_data import load_data, plot_rts
-    windADf = load_data(ROOT + '/881001.csv')
+    windADf = load_data(DATA_PATH + '/881001.csv')
     indexClose = windADf.loc[:, ['date', 'close']].set_index('date')
     indexClose = indexClose[outputPrediction.index[0]:]
 #%%

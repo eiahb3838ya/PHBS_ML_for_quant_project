@@ -10,12 +10,12 @@ from sklearn.svm import LinearSVC
 from sklearn.feature_selection import SelectFromModel
 import pandas as pd
 import os
-from FeatureEngineering import FeatureEngineering
+
 import warnings
 warnings.filterwarnings('ignore')
 import numpy as np
 
-def SVCL1Selection(X_train, X_test, y_train, y_test, method = None, returnCoef = False):
+def SVCL1Selection(X_train, y_train ,X_test , y_test, method = None, returnCoef = False):
     '''
     choose the model = 'SVCL1'
     fit any feature_selection model with the X_train, y_train
@@ -62,6 +62,7 @@ def split_train_test_data(X,y,test_size):
     return X_train,X_test,y_train,y_test
 
 if __name__ == '__main__':
+    from FeatureEngineering import FeatureEngineering
     ROOT =  '/Users/mac/Desktop/ML_Quant/data'
     rawDf = pd.read_pickle(os.path.join(ROOT, 'cleanedFactor.pkl'))
     getFeatures = FeatureEngineering(ROOT)

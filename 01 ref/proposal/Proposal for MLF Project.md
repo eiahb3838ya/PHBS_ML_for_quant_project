@@ -5,7 +5,6 @@ Date: 2020.03
 
 **😄first ddl:2020.03.01  aim:finish the draft about proposal**
 
-
 ---
 
 
@@ -15,51 +14,51 @@ Date: 2020.03
 
 According to the research report of Industrial Securities, we choose following factors, most of which can be acquired from Wind/Choice Database directly（Denoted by D in the table）.All factors are based on daily frequency data.
 
-| 银行间同业拆借加权利率：1天 | Interbank Offered Rate: 1 day | D | 
+| 银行间同业拆借加权利率：1天 | Interbank Offered Rate: 1 day | D |
 |:----:|:----:|:----:|
-| 银行间同业拆借加权利率：1天：过去五天的变化率 | Interbank Offered Rate: 1 day: Change rate in   the past five days | D | 
-| 7天期回购利率 | 7-day repo rate | D   | 
-| 7天期回购利率：过去五天的变化率 | 7-day repo rate: Change rate in the past five days | D | 
-| 银行间回购加权利率：7天 | Interbank repo weighted interest rate: 7 days | D | 
-| 银行间回购加权利率：7天：过去五天的变化率 | Interbank repo weighted interest rate: 7 days: Change rate in the past five days | D | 
-| shibor利率（0N） | shibor（0N） | D | 
-| shibor利率（1W） | shibor（1W） | D | 
-| shibor利率（2W） | shibor（2W） | D  | 
-| shibor利率（1M） | shibor（1M） | D | 
-| shibor利率（3M） | shibor（3M） | D | 
-| shibor利率（6M） | shibor（6M） | D | 
-| shibor利率（0N）：过去五天的变化率 | shibor（0N）: Change rate in the past five days | D | 
-| shibor利率（1W）：过去五天的变化率 | shibor（1W）: Change rate in the past five days | D | 
-| shibor利率（2W）：过去五天的变化率 | shibor（2W）: Change rate in the past five days | D  | 
-| shibor利率（1M）：过去五天的变化率 | shibor（1M）: Change rate in the past five days | D  | 
-| shibor利率（3M）：过去五天的变化率 | shibor（3M）: Change rate in the past five days | D | 
-| shibor利率（6M）：过去五天的变化率 | shibor（6M）: Change rate in the past five days | D | 
-| 中债国债到期收益率（0年） | Government Bond YTM（0Y） | D | 
-| 中债国债到期收益率（0年）：过去五天的变化率 | Government Bond YTM（0Y）: Change rate in the past five days | D | 
-| 中债国债到期收益率（3年） | Government Bond YTM（3Y） | D | 
-| 中债国债到期收益率（3年）：过去五天的变化率 | Government Bond YTM（3Y）: Change rate in the past five days | D | 
-| 南华指数 | NHCI | D | 
-| 南华指数：过去五天的变化率 | NHCI: Change rate   in the past five days | D | 
-| CRB现货指数：综合 | CRB | D | 
-| CRB现货指数：综合：过去五天的变化率 | CRB: Change rate in the past five days | D | 
-| 期货收盘价（连续）：COMEX黄金 | Futures closing price (continuous): COMEX Gold | D | 
-| 期货收盘价（连续）：COMEX黄金：过去五天的变化率 | Futures closing price (continuous): COMEX Gold: Change   rate in the past five days | D | 
-| 期货结算价（连续）：WTI原油 | Futures settlement price (continuous): WTI Crude Oil | D | 
-| 期货结算价（连续）：WTI原油：过去五天的变化率 | Futures settlement price (continuous): WTI Crude Oil: Change rate in the past five days | D | 
-| COMEX黄金/WTI原油 | COMEX Gold/ WTI Crude Oil | D | 
-| COMEX黄金/WTI原油：过去五天的变化率 | COMEX Gold/ WTI Crude Oil: Change rate in the   past five days | D | 
-| 标普500 | S & P 500 | D | 
-| 标普500：过去五天的变化率 | S & P 500: Change rate in the past five days | D | 
-| 市场动量指标RSI | Market momentum indicator | RSI=Sum(Max(Close-LastClose,0),N,1)/Sum(ABS(Close-LastClose),N,1)*100 | 
-| 市场动量指标：过去五天的收益率 | Market momentum indicator: Change rate in the past five days | D | 
-| 市场交易活跃指标（成交量） | Volume | D | 
-| 市场交易活跃指标：过去五天成交量的变化率 | Volume: Change rate in the past five days | D | 
-| Beta分离度指标 | Beta resolution index | beta is calculated by CAPM, then calculate the difference between 90% percentile and 10% percentile of beta   | 
-| Beta分离度指标：过去五天的变化率 | Beta resolution index: Change rate in the past five days | D | 
-| 50ETF过去60日的波动率 | 50ETF volatility over the past 60 days | D | 
-| 50ETF过去60日的波动率：过去五天的变化率 | 50ETF volatility over the past 60 days: Change   rate in the past five days | D | 
-| 50ETF过去120日的波动率 | 50ETF volatility over the past 60 days | D | 
-| 50ETF过去120日的波动率：过去五天的变化率 | 50ETF volatility over the past 60 days: Change rate in the past five days | D | 
+| 银行间同业拆借加权利率：1天：过去五天的变化率 | Interbank Offered Rate: 1 day: Change rate in   the past five days | D |
+| 7天期回购利率 | 7-day repo rate | D   |
+| 7天期回购利率：过去五天的变化率 | 7-day repo rate: Change rate in the past five days | D |
+| 银行间回购加权利率：7天 | Interbank repo weighted interest rate: 7 days | D |
+| 银行间回购加权利率：7天：过去五天的变化率 | Interbank repo weighted interest rate: 7 days: Change rate in the past five days | D |
+| shibor利率（0N） | shibor（0N） | D |
+| shibor利率（1W） | shibor（1W） | D |
+| shibor利率（2W） | shibor（2W） | D  |
+| shibor利率（1M） | shibor（1M） | D |
+| shibor利率（3M） | shibor（3M） | D |
+| shibor利率（6M） | shibor（6M） | D |
+| shibor利率（0N）：过去五天的变化率 | shibor（0N）: Change rate in the past five days | D |
+| shibor利率（1W）：过去五天的变化率 | shibor（1W）: Change rate in the past five days | D |
+| shibor利率（2W）：过去五天的变化率 | shibor（2W）: Change rate in the past five days | D  |
+| shibor利率（1M）：过去五天的变化率 | shibor（1M）: Change rate in the past five days | D  |
+| shibor利率（3M）：过去五天的变化率 | shibor（3M）: Change rate in the past five days | D |
+| shibor利率（6M）：过去五天的变化率 | shibor（6M）: Change rate in the past five days | D |
+| 中债国债到期收益率（0年） | Government Bond YTM（0Y） | D |
+| 中债国债到期收益率（0年）：过去五天的变化率 | Government Bond YTM（0Y）: Change rate in the past five days | D |
+| 中债国债到期收益率（3年） | Government Bond YTM（3Y） | D |
+| 中债国债到期收益率（3年）：过去五天的变化率 | Government Bond YTM（3Y）: Change rate in the past five days | D |
+| 南华指数 | NHCI | D |
+| 南华指数：过去五天的变化率 | NHCI: Change rate   in the past five days | D |
+| CRB现货指数：综合 | CRB | D |
+| CRB现货指数：综合：过去五天的变化率 | CRB: Change rate in the past five days | D |
+| 期货收盘价（连续）：COMEX黄金 | Futures closing price (continuous): COMEX Gold | D |
+| 期货收盘价（连续）：COMEX黄金：过去五天的变化率 | Futures closing price (continuous): COMEX Gold: Change   rate in the past five days | D |
+| 期货结算价（连续）：WTI原油 | Futures settlement price (continuous): WTI Crude Oil | D |
+| 期货结算价（连续）：WTI原油：过去五天的变化率 | Futures settlement price (continuous): WTI Crude Oil: Change rate in the past five days | D |
+| COMEX黄金/WTI原油 | COMEX Gold/ WTI Crude Oil | D |
+| COMEX黄金/WTI原油：过去五天的变化率 | COMEX Gold/ WTI Crude Oil: Change rate in the   past five days | D |
+| 标普500 | S & P 500 | D |
+| 标普500：过去五天的变化率 | S & P 500: Change rate in the past five days | D |
+| 市场动量指标RSI | Market momentum indicator | RSI=Sum(Max(Close-LastClose,0),N,1)/Sum(ABS(Close-LastClose),N,1)*100 |
+| 市场动量指标：过去五天的收益率 | Market momentum indicator: Change rate in the past five days | D |
+| 市场交易活跃指标（成交量） | Volume | D |
+| 市场交易活跃指标：过去五天成交量的变化率 | Volume: Change rate in the past five days | D |
+| Beta分离度指标 | Beta resolution index | beta is calculated by CAPM, then calculate the difference between 90% percentile and 10% percentile of beta   |
+| Beta分离度指标：过去五天的变化率 | Beta resolution index: Change rate in the past five days | D |
+| 50ETF过去60日的波动率 | 50ETF volatility over the past 60 days | D |
+| 50ETF过去60日的波动率：过去五天的变化率 | 50ETF volatility over the past 60 days: Change   rate in the past five days | D |
+| 50ETF过去120日的波动率 | 50ETF volatility over the past 60 days | D |
+| 50ETF过去120日的波动率：过去五天的变化率 | 50ETF volatility over the past 60 days: Change rate in the past five days | D |
 
 
 1. **data cleaning details**
@@ -77,7 +76,7 @@ to check which factors have better prediction power. We will apply feature sele
 We can try PCA method to avoid dimension disaster, pick the top 5, 10 vectors as our feature to input.
 1. **single model(decision tree timing model)**
 
-**a. ****D****ecision tree for prediction**
+**a. ****Decision tree for prediction**
 
 This paper use decision tree model - CART (classification and regression tree) - mainly as classification tools. We consider use either Gini coefficient or information entropy as inpurity level of the data to establish the decision tree. The advantages of using decision tree models include the ability to combine multiple factors' information, the ability to fit unlinear factors and the abilty to automatically select factors with strong predicting abilities. 
 
@@ -112,7 +111,6 @@ Naive Bayes algorithm has very stable classification efficiency and very robust.
 **KNN:**
 
 KNN can be used for unlinear classification and the result is accurate. The time complexity of KNN is O(n). However, the computation is huge and requires large storage.
-
 
 ---
 

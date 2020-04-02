@@ -16,7 +16,9 @@ Short-term market timing strategy based on boosting ML algos
 
 #### 2.Data Selection
 
-Dataset：According to the research report of Industrial Securities, , we choose macroeconomic data(cleanedFactor.pkl) plus OHLC data of windA(881001.csv), most of which can be acquired from Wind/Choice Database directly（Denoted by D in the table. All factors are based on daily frequency data.
+Dataset：According to the research report of Industrial Securities, , we choose macroeconomic data([cleanedFactor.pkl](data/cleanedFactor.pkl)) plus OHLC data of windA([881001.csv](data/881001.csv))
+
+most of which can be acquired from Wind/Choice Database directly（Denoted by D in the table. All factors are based on daily frequency data.
 
 Sample:
 ![images](data/features.png)

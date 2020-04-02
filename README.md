@@ -48,19 +48,15 @@ The description of dataset is in [report](data/report.html).
 
 4. **Check the efficiency of features** (waiting to do) calculate the IC
 
-5. **Decomposition (optional)**﻿ ﻿We can try PCA method to avoid dimension disaster, pick the top 5, 10 vectors as our feature to input.
+5. **Decomposition**﻿ We can try PCA method to avoid dimension disaster, pick the top 5, 10 vectors as our feature to input.
 
 #### 5. Single Model to classifier
 
-do cv.
-
-turning the hyperpramaters.
+do cv. turning the hyperpramaters.
 
 total num is  8 base classifier models.
 
-print 
-
-output roc,auc,etc
+print output roc,auc,etc
 
 #### 6.Boosting Model to implement model
 

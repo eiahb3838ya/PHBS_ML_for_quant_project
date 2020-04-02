@@ -39,21 +39,16 @@ The description of dataset is in [report](data/report.html).
 1. **Visualiztion**﻿
    ﻿to check if our data follow required statistical assumptions, we will visualize our data using seaborn or other tools. Draw a heat map to check the corr_coef of each factors. 
 
-2. **Feature engineering**
-
-   use tech indicator to build some factor like wq101.
+2. **Feature engineering** use tech indicator to build some factor like wq101.
 
 3. **Feature selection**﻿
    ﻿to check which factors have better prediction power. We will apply feature selection methods including Cross Entropy, information gain, gini coef, LASSO. Draw the graph for each factor accordingly 
 
    Now(naive，SVCL1，tree，varianceThreshold)
 
-4. **Check the efficiency of features** (waiting to do)
+4. **Check the efficiency of features** (waiting to do) calculate the IC
 
-   calculate the IC
-
-5. **Decomposition (optional)**﻿
-   ﻿We can try PCA method to avoid dimension disaster, pick the top 5, 10 vectors as our feature to input.
+5. **Decomposition (optional)**﻿ ﻿We can try PCA method to avoid dimension disaster, pick the top 5, 10 vectors as our feature to input.
 
 #### 5. Single Model to classifier
 

@@ -16,14 +16,14 @@ Short-term market timing strategy based on boosting ML algos
 
 #### 2.Data Selection
 
-Dataset：According to the research report of Industrial Securities, , we choose macroeconomic data([cleanedFactor.pkl](data/cleanedFactor.pkl)) plus OHLC data of windA([881001.csv](data/881001.csv))
+Dataset：According to the research report of Industrial Securities, , we choose macroeconomic data([cleanedFactor.pkl](00 data/cleanedFactor.pkl)) plus OHLC data of windA([881001.csv](00 data/881001.csv))
 
 most of which can be acquired from Wind/Choice Database directly（Denoted by D in the table. All factors are based on daily frequency data.
 
 Sample:
-![images](data/features.png)
+![images](00 data/features.png)
 
-![images](data/price.png)
+![images](00 data/price.png)
 
 #### 3.Data clean details
 
@@ -34,7 +34,7 @@ Sample:
 
 #### 4. Explore and analysis data:
 
-The description of dataset is in [report](data/report.html).
+The description of dataset is in [report](07 report/inputDataReport.html).
 
 1. **Visualiztion**﻿
    ﻿to check if our data follow required statistical assumptions, we will visualize our data using seaborn or other tools. Draw a heat map to check the corr_coef of each factors. 
@@ -54,21 +54,21 @@ The description of dataset is in [report](data/report.html).
 
 do cv. turning the hyperpramaters.
 
-total num is  8 base classifier models.
+total num is  7 base classifier models.(Logistic Regression, SVM, KNN, Naive Bayes, NeuralNetwork,Perceptron,Decision Tree)
 
 print output roc,auc,etc
 
 #### 6.Boosting Model to implement model
 
-
+Random forest or XGBoost.
 
 #### 7.Deep Learning algos to predict
 
-
+Use sequential Model to make classifier. This case is not very suitable for deep learning algos because of small size of dataset.
 
 #### 8.Evaluation overfitting framework
 
-
+CSCV cross validation framework to evaluate the overfitting rate of each method.
 
 #### Reference
 

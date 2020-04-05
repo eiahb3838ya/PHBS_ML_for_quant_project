@@ -20,10 +20,10 @@ import matplotlib.pyplot as plt
 from MyDecisionTreeClassifier import MyDecisionTreeClassifier
 from MyClassifier import *
 from MySVMClassifier import MySVMClassifier
+from MyKNNClassifier import MyKNNClassifier
+from sklearn.svm import SVC
 
-
-from FeatureEngineering import FeatureEngineering
-
+# from FeatureEngineering import FeatureEngineering
 from naiveSelection import naiveSelection
 from treeSelection import treeSelection
 from SVCL1Selection import SVCL1Selection
@@ -52,7 +52,7 @@ class RollingSignalGenerator:
             print(e.args[0])
             
     def generateOnePeriodSignal(self, X_train, y_train, X_test, y_test, featureSelectionFunction, predictModel):
-        X_train_selected, X_test_selected = featureSelectionFunction(X_train, y_train, X_test, y_test,method = True)
+        X_train_selected, X_test_selected = featureSelectionFunction(X_train, y_train, X_test, y_test, verbal = True)
         # fit predict
         model = predictModel()
         model.fit(X_train_selected, y_train)
@@ -71,12 +71,12 @@ class RollingSignalGenerator:
         modelRecord = {}
         outputPrediction = pd.Series()
         
-        for predictStartDate, predictEndDate in tqdm(zip(self.changeHandDates, self.changeHandDates[1:])):
+        for predictStartDate, predictEndDate in zip(self.changeHandDates, self.changeHandDates[1:]):
 #            check if we have enough data 
-            tqdm.write('start predict from {} to {}'.format(predictStartDate, predictEndDate))
+            print('start predict from {} to {}'.format(predictStartDate, predictEndDate))
             trainDataDays = np.busday_count(np.datetime64(self.startDate), np.datetime64(predictStartDate.date()))
             if trainDataDays < minTrainDays:
-                tqdm.write('We only have {} trainDataDays'.format(trainDataDays))
+                print('We only have {} trainDataDays'.format(trainDataDays))
                 continue
             
 #            split the traing and testing set 
@@ -85,15 +85,17 @@ class RollingSignalGenerator:
             elif trainMode == 'rolling':
                 trainStartDate = predictStartDate-pd.Timedelta(minTrainDays, unit = 'B')
             X_train, y_train = self.rawXs[trainStartDate:predictStartDate], self.rawYs[trainStartDate:predictStartDate]
-            tqdm.write('train shape (X, y):{}'.format(X_train.shape, y_train.shape))
+            print('train shape (X, y):{}'.format(X_train.shape, y_train.shape))
             X_test, y_test = self.rawXs[predictStartDate:predictEndDate], self.rawYs[predictStartDate:predictEndDate]
-            tqdm.write('test  shape (X, y):{}'.format(X_test.shape, y_test.shape))
+            print('test  shape (X, y):{}'.format(X_test.shape, y_test.shape))
             
             y_predictSeries, model = self.generateOnePeriodSignal(X_train, y_train, X_test, y_test,\
                                                                   featureSelectionFunction, predictModel)
             #  concat outputs
             outputPrediction = pd.concat([outputPrediction, y_predictSeries])    
             if recordModels:
+                
+                
                 modelRecord.update({
                     str(predictStartDate.date()):{
                         'trainStartDate' :trainStartDate,
@@ -111,29 +113,39 @@ class RollingSignalGenerator:
         
 #%%
 if __name__ =='__main__':
-    # ROOT = '../'
-    # DATA_PATH = os.path.join(os.path.join(ROOT, '04 select feature and build model'), 'data')
-    # CLEANED_FACTOR_PATH = os.path.join(ROOT, '03 data process')
-    ROOT =  '/Users/mac/Desktop/ML_Quant/data'
-    rawDf = pd.read_pickle(os.path.join(ROOT, 'cleanedFactor.pkl'))
-    getFeatures = FeatureEngineering(ROOT)
-    features = getFeatures.combine_feature()
-    rawDf = pd.merge(features,rawDf,on = 'date')
-    rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1].astype(bool)
+    ROOT = '../'
+    DATA_PATH = os.path.join(os.path.join(ROOT, '04 select feature and build model'), 'data')
+    CLEANED_FACTOR_PATH = os.path.join(ROOT, '03 data process')
+    rawDf = pd.read_pickle(os.path.join(CLEANED_FACTOR_PATH, 'cleanedFactor.pkl'))
+#%%    
+    sys.path.append(os.path.join(ROOT, '04 select feature and build model'))
+    from FeatureEngineering import FeatureEngineering
+    getFeatures = FeatureEngineering(DATA_PATH)
+    rawDf = getFeatures.combine_feature().set_index('date')
+    rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1]
     
     MIN_TRAIN_DAYS = 1600
-    TRAIN_MODE = 'rolling'
-    # predictModel = MyLogisticRegClassifier
+    TRAIN_MODE = 'extention'
+    
     recordModels = True
     selector = SVCL1Selection
-    myPredictModel = MyNaiveBayesClassifier
+    myPredictModel = SVC
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)
     outputPrediction, models = sig.generateSignal(predictModel = myPredictModel, featureSelectionFunction = selector)
+    
+    
+#%% 
+    # outputPrediction
+    y_true = rawYs[outputPrediction.index]
+    print(metrics.precision_score(y_true, outputPrediction))
+    
+    outputPrediction.to_pickle(os.path.join(os.path.join(ROOT, '00 data/result'), 'outputPrediction.pkl'))
+     
 #%%
     from load_data import load_data, plot_rts
-    windADf = load_data(ROOT + '/881001.csv')
+    windADf = load_data(DATA_PATH + '/881001.csv')
     indexClose = windADf.loc[:, ['date', 'close']].set_index('date')
     indexClose = indexClose[outputPrediction.index[0]:]
 #%%

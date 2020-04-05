@@ -50,27 +50,7 @@ class MyNaiveBayesClassifier:
         return(self.model.predict(X))
     
 #%% KNNClassifier
-class MyKNNClassifier:
-    def __init__(self):
-        self.parameter = self.getPara()
-        self.model = neighbors.KNeighborsClassifier(n_neighbors = self.parameter['n_neighbors'],
-                                                    weights = self.parameter['weights'])
-        
-    def getPara(self):
-        # do some how cv or things to decide the hyperparameter
-        
-        # n_neighbors = 15
-        # weights = 'uniform'
-        return(paraKNN)
-        
-    def fit(self, X, y):
-        # do what ever plot or things you like 
-        # just like your code
-        return(self.model.fit(X, y))
-        
-    def predict(self, X):
-        return(self.model.predict(X))
-    
+
 #%% NeuralNetwork
 class MyNeuralNetworkClassifier:
     def __init__(self):

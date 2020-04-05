@@ -12,11 +12,11 @@ This is the repository for ML final project.
 
 #### 1.Project Goal
 
-Short-term market timing strategy based on boosting ML algos
+Our project is about short-term market timing strategy based on boosting ML algos. We try to use macroeconomic data,other related stock market indicators plus technique alphas to predict whether windA will move up or down in next trade day. We hope to find some useful factors to do timing strategy and beat the benchmark. Besides, we consider that it is important to solve overfitting problem. As a result, we will use cross validation to tune hyperparameters and evaluate the model performance in machine learning level. We will also use CSCV framework to evaluate the probability of overfitting in backtesting level.
 
 #### 2.Data Selection
 
-Dataset：According to the research report of Industrial Securities, we choose macroeconomic data([cleanedFactor.pkl](00%20data/cleanedFactor.pkl)) plus OHLC data of windA([881001.csv](00%20data/881001.csv)), and we add new data about index indicators, like DJI.GI. The data can be acquired from Wind Database directly（Denoted by D in the table. All factors are based on daily frequency data.
+Dataset：According to the research report of Industrial Securities, we choose macroeconomic data([cleanedFactor.pkl](00%20data/cleanedFactor.pkl)) plus OHLC data of windA([881001.csv](00%20data/881001.csv)), and we add new data about index indicators, like ([DJI.GI,NQ.CME](00%20data/AddNewData)). The data can be acquired from Wind Database directly(Denoted by D in the table). All factors are based on daily frequency data.
 
 Sample:
 ![images](00%20data/features.png)
@@ -25,7 +25,7 @@ Sample:
 
 #### 3.Data clean details
 
-1. **Data fromats, structures**﻿
+1. **Data formats, structures**﻿
    ﻿design a process for data cleaning. Remove NA values and make the format easy to slice according to time. Use dict and pandas dataframe to design our structure.
 2. **Data Normalization**﻿
    ﻿design a class for normalization work, which provides method including loading , calculating, saving data according to parameters given. At least implement two kinds of normalization, including min-max, z-score normalization.

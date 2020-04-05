@@ -24,7 +24,7 @@ def varianceThresholdSelection(X_train, y_train, X_test,y_test, method = None,re
     return the coef or the score of each feature if asked
     
     '''
-    threshold = 0.8
+    threshold = 0.6
     coef = pd.Series(X_train.var(),index = X_train.columns)
     selectedX_train = (coef >= threshold * (1-threshold))
     selectedX_train = pd.DataFrame(selectedX_train)

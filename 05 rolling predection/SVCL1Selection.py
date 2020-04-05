@@ -14,7 +14,7 @@ import warnings
 warnings.filterwarnings('ignore')
 import numpy as np
 
-def SVCL1Selection(X_train, y_train,X_test, y_test, method = None, returnCoef = False):
+def SVCL1Selection(X_train, y_train,X_test, y_test, returnCoef = False, verbal = False):
     '''
     choose the model = 'SVCL1'
     fit any feature_selection model with the X_train, y_train
@@ -34,7 +34,10 @@ def SVCL1Selection(X_train, y_train,X_test, y_test, method = None, returnCoef = 
     X_train.columns = features
     X_test.columns = features
         
-    lsvc = LinearSVC(C=1, penalty="l1", dual=False).fit(X_train, y_train)
+    C = 0.05
+    
+    lsvc = LinearSVC(C=C, penalty="l1", dual=False).fit(X_train, y_train)
+    
     model = SelectFromModel(lsvc, prefit=True)
     index = model.get_support()
     fs_X_name = pd.Series(index,index = X_train.columns)
@@ -44,7 +47,8 @@ def SVCL1Selection(X_train, y_train,X_test, y_test, method = None, returnCoef = 
     X_test = X_test[getSelectedName]
     coef = pd.Series(index)
     
-    if method == True:
+    if verbal == True:
+        print('uses C of :{}'.format(C))
         print('The total feature number is '+ str(sum(index == True)))
         print('The selected feature name is '+ str(getSelectedName))
         
@@ -72,5 +76,5 @@ if __name__ == '__main__':
        y_test = y[num_train:]
        return X_train,y_train,X_test, y_test
     X_train,y_train,X_test, y_test = split_train_test_data(rawXs,rawYs,test_size = 0.3)
-    X_train, X_test = SVCL1Selection(X_train, y_train,X_test, y_test,method = True, returnCoef = False)
+    X_train, X_test = SVCL1Selection(X_train, y_train,X_test, y_test,verbal = True, returnCoef = False)
     

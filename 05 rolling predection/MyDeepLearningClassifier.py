@@ -5,7 +5,6 @@ Created on Sun Apr  5 00:17:21 2020
 
 @author: Trista
 """
-from sklearn import tree
 from parametersRepo import *
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
@@ -40,15 +39,15 @@ class MyDeepLearningClassifier:
         self.model = model
         return(self.model.fit(X, y,
                               validation_split=0.2, 
-                              epochs=50, batch_size=10, verbose=2))
+                              epochs=1, batch_size=10, verbose=2))
         
     def predict(self, X):
-        result = self.model.predict_classes(X)
-        result = pd.Series(result.flatten())
-        return(result)
+        return(pd.Series(self.model.predict_classes(X).flatten()).astype(bool))
 
 if __name__ == '__main__':
     test = MyDeepLearningClassifier()
     test.fit(X_train,y_train)
-    test.model.score(X_train,y_train)
-    test.model.score(X_test,y_test)
+    test.predict(X_test)
+    # test.model.score(X_train,y_train)
+    # test.model.score(X_test,y_test)
+    # test.model.predict(X_test)

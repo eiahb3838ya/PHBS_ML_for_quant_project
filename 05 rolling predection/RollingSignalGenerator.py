@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 from MyDecisionTreeClassifier import MyDecisionTreeClassifier
 from MyClassifier import *
 from MySVMClassifier import MySVMClassifier
+from MyDeepLearningClassifier import MyDeepLearningClassifier
 
 
 from FeatureEngineering import FeatureEngineering
@@ -64,7 +65,10 @@ class RollingSignalGenerator:
 #        tqdm.write("recall:{}".format(metrics.recall_score(y_true, y_pred)))
 #        tqdm.write("f1:{}\n".format(metrics.f1_score(y_true, y_pred)))  
         
-        return(pd.Series(y_pred, index = y_test.index), model)
+        # return(pd.Series(y_pred, index = y_test.index), model)
+        y_pred = pd.Series(y_pred)
+        y_pred.index = y_test.index
+        return(pd.Series(y_pred), model)
         
             
     def generateSignal(self, predictModel, featureSelectionFunction, minTrainDays = 1800, trainMode = 'extention', recordModels = True):
@@ -125,8 +129,9 @@ if __name__ =='__main__':
     TRAIN_MODE = 'rolling'
     # predictModel = MyLogisticRegClassifier
     recordModels = True
-    selector = SVCL1Selection
-    myPredictModel = MyNaiveBayesClassifier
+    selector = naiveSelection
+    myPredictModel = MyDeepLearningClassifier
+    # myPredictModel =  MyDecisionTreeClassifier
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)
@@ -150,7 +155,7 @@ if __name__ =='__main__':
             
             
             
-            
+
             
             
             

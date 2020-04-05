@@ -16,7 +16,7 @@ Short-term market timing strategy based on boosting ML algos
 
 #### 2.Data Selection
 
-Dataset：According to the research report of Industrial Securities, , we choose macroeconomic data([cleanedFactor.pkl](00 data/cleanedFactor.pkl)) plus OHLC data of windA([881001.csv](00 data/881001.csv))
+Dataset：According to the research report of Industrial Securities, , we choose macroeconomic data([cleanedFactor.pkl](00%data/cleanedFactor.pkl)) plus OHLC data of windA([881001.csv](00%data/881001.csv))
 
 most of which can be acquired from Wind/Choice Database directly（Denoted by D in the table. All factors are based on daily frequency data.
 
@@ -34,7 +34,7 @@ Sample:
 
 #### 4. Explore and analysis data:
 
-The description of dataset is in [report](07 report/inputDataReport.html).
+The description of dataset is in [report](07%report/inputDataReport.html).
 
 1. **Visualiztion**﻿
    ﻿to check if our data follow required statistical assumptions, we will visualize our data using seaborn or other tools. Draw a heat map to check the corr_coef of each factors. 

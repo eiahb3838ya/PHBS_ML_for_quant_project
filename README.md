@@ -32,7 +32,7 @@ Sample:
 
 #### 4. Explore and analysis data:
 
-The description of dataset is in [report](07%20 report/inputDataReport.html).
+The description of dataset is in [report](07%20report/inputDataReport.html).
 
 1. **Visualiztion**﻿
    ﻿to check if our data follow required statistical assumptions, we will visualize our data using seaborn or other tools. Draw a heat map to check the corr_coef of each factors. 

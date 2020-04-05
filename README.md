@@ -19,9 +19,9 @@ Short-term market timing strategy based on boosting ML algos
 Dataset：According to the research report of Industrial Securities, we choose macroeconomic data([cleanedFactor.pkl](00%20data/cleanedFactor.pkl)) plus OHLC data of windA([881001.csv](00%20data/881001.csv)), and we add new data about index indicators, like DJI.GI. The data can be acquired from Wind Database directly（Denoted by D in the table. All factors are based on daily frequency data.
 
 Sample:
-![images](00 data/features.png)
+![images](00%20data/features.png)
 
-![images](00 data/price.png)
+![images](00%20data/price.png)
 
 #### 3.Data clean details
 

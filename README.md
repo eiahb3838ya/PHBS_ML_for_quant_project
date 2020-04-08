@@ -32,7 +32,7 @@ Sample:
 
 #### 4. Explore and analysis data:
 
-The description of dataset is in [report](07%20report/inputDataReport.html).
+The description of dataset is in [report](08%20report/inputDataReport.html).
 
 1. **Visualiztion**﻿
    ﻿to check if our data follow required statistical assumptions, we will visualize our data using seaborn or other tools. Draw a heat map to check the corr_coef of each factors. 
@@ -42,7 +42,7 @@ The description of dataset is in [report](07%20report/inputDataReport.html).
 3. **Feature selection**﻿
    ﻿to check which factors have better prediction power. We will apply feature selection methods including Cross Entropy, information gain, gini coef, LASSO. Draw the graph for each factor accordingly 
 
-   Now(naive，SVCL1，tree，varianceThreshold)
+   Now(naive，SVCL1，tree，varianceThreshold，PCA)
 
 4. **Check the efficiency of features** (waiting to do) calculate the IC
 
@@ -58,7 +58,7 @@ print output roc,auc,etc
 
 #### 6.Boosting Model to implement model
 
-Random forest or XGBoost.
+XGBoost model performance is reeeeally good.
 
 #### 7.Deep Learning algos to predict
 

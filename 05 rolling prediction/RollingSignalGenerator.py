@@ -28,16 +28,18 @@ from varianceThresholdSelection import varianceThresholdSelection
 from pcaSelection import pcaSelection
 
 sys.path.append(os.path.join(ROOT, '04 build classifier model'))
+
 from MyDecisionTreeClassifier import MyDecisionTreeClassifier
 from MyClassifier import *
 from MySVMClassifier import MySVMClassifier
-from MyXGBoostClassifier import MyXGBoostClassifier
+# from MyXGBoostClassifier import MyXGBoostClassifier
 # <<<<<<< HEAD
 # from MyDeepLearningClassifier import MyDeepLearningClassifier
 # =======
 from MyKNNClassifier import MyKNNClassifier
 from sklearn.svm import SVC
 # >>>>>>> cba755d863f0fcf468ecabcb8370f5eb74e79c83
+
 
 #%%
 class RollingSignalGenerator:
@@ -103,15 +105,29 @@ class RollingSignalGenerator:
             y_predictSeries, model = self.generateOnePeriodSignal(X_train, y_train, X_test, y_test,\
                                                                   featureSelectionFunction, predictModel)
             #  concat outputs
-            outputPrediction = pd.concat([outputPrediction, y_predictSeries])    
+            outputPrediction = pd.concat([outputPrediction, y_predictSeries])
+            
+            
+            # tqdm.write("precision:{}".format(metrics.precision_score(y_true, y_pred)))
+            # tqdm.write("recall:{}".format(metrics.recall_score(y_true, y_pred)))
+            # tqdm.write("f1:{}\n".format(metrics.f1_score(y_true, y_pred)))  
+        
             if recordModels:
+                performance = {}
+                
+                performance.update({
+                    'precision':metrics.precision_score(y_test, y_predictSeries),
+                    'recall':metrics.recall_score(y_test, y_predictSeries),
+                    'f1_score':metrics.f1_score(y_test, y_predictSeries)
+                    })
                                
                 modelRecord.update({
                     str(predictStartDate.date()):{
                         'trainStartDate' :trainStartDate,
                         'predictStartDate' :predictStartDate,
                         'predictEndDate' :predictEndDate, 
-                        'model' :model 
+                        'model' :model,
+                        'performance':performance
                     }           
                 })
     
@@ -132,7 +148,8 @@ if __name__ =='__main__':
     # rawDf = pd.concat([indexDf,rawDf],axis = 1)
 
 #%%    
-    # sys.path.append(os.path.join(ROOT, '04 select feature and build model'))
+    sys.path.append(os.path.join(ROOT, '04 select feature and build model'))
+    sys.path.append(os.path.join(ROOT, '05 rolling prediction'))
     from FeatureEngineering import FeatureEngineering
     getFeatures = FeatureEngineering(DATA_PATH)
     features = getFeatures.combine_feature()
@@ -157,9 +174,15 @@ if __name__ =='__main__':
     # outputPrediction
     y_true = rawYs[outputPrediction.index]
     print(metrics.precision_score(y_true, outputPrediction))
+    
+    
     outputPredictionFileName = str(selector.__name__) + '_' +str(myPredictModel.__name__)
-    outputPrediction.to_pickle(os.path.join(os.path.join(ROOT, '05 rolling prediction/outputResults'),'{}_Value.pkl'.format(outputPredictionFileName)))
-     
+    path = os.path.join(ROOT, '05 rolling prediction/outputResults/{}'.format(outputPredictionFileName))
+    if not os.path.isdir(path):
+        os.makedirs(path)
+    
+    outputPrediction.to_pickle(os.path.join(path,'{}_Value.pkl'.format(outputPredictionFileName)))
+    np.save(os.path.join(path,'{}_models'.format(outputPredictionFileName)), models)
 #%%
     from load_data import load_data, plot_rts
     windADf = load_data(DATA_PATH + '/881001.csv')
@@ -175,7 +198,7 @@ if __name__ =='__main__':
     # plt.show()
     
 #%% plot output prediction result
-    y_pred = pd.read_pickle('../05 rolling prediction/outputResults/{}_Value.pkl'.format(outputPredictionFileName)).astype(bool)
+    y_pred = pd.read_pickle(path + '/{}_Value.pkl'.format(outputPredictionFileName)).astype(bool)
     y_indexClose = indexClose[y_pred.index[0]:]
     
     windAReturn = indexClose.pct_change().shift(-1).rename(columns = {'close':'return'})
@@ -206,7 +229,7 @@ if __name__ =='__main__':
     Result.columns = ['windAReturn','windACumprod',
                       'LongReturn','LongCumprod',
                       'LongShortReturn','LongShortCumprod']
-    Result.to_csv('../05 rolling prediction/outputResults/{}_NAV.csv'.format(outputPredictionFileName))
+    Result.to_csv(path+'/{}_NAV.csv'.format(outputPredictionFileName))
     # Result.plot()
     
 #%% plot buy and sell time
@@ -216,7 +239,7 @@ if __name__ =='__main__':
     plt.scatter(shortDay, y_indexClose.loc[shortDay],color = 'red',s = 12)
     plt.scatter(longDay, y_indexClose.loc[longDay],color = 'green',s = 12)
     plt.title('buy and sell time')
-    plt.savefig(os.path.join(os.path.join(ROOT, '05 rolling prediction/outputResults'),'{}.png'.format(outputPredictionFileName+'_buy_sell_time')))
+    plt.savefig(os.path.join(path,'{}.png'.format(outputPredictionFileName+'_buy_sell_time')))
     plt.show()
     
 #%% plot LS portfolio 
@@ -236,10 +259,37 @@ if __name__ =='__main__':
     plt.bar(strategyLongShortReturn.index, strategyLongShortReturn['return'])
     plt.title('LongShort Strategy win vs fail time')
     
-    plt.savefig(os.path.join(os.path.join(ROOT, '05 rolling prediction/outputResults'),'{}.png'.format(outputPredictionFileName+'_performance')))
+    plt.savefig(os.path.join(path,'{}.png'.format(outputPredictionFileName+'_performance')))
     plt.show()
-        
     
+    
+#%% precision recall f1 
+
+    ROOT = '../'
+    outputPredictionFileName = str(selector.__name__) + '_' +str(myPredictModel.__name__)
+    path = os.path.join(ROOT, '05 rolling prediction/outputResults/{}'.format(outputPredictionFileName))
+    models = np.load(os.path.join(path,'{}_models.npy'.format(outputPredictionFileName)), allow_pickle = True).item()
+    
+    precision = []
+    recall = []
+    f1 = []
+    dateList = []
+    
+    for k, v in models.items():
+        print(k)
+        print(v['performance'])
+        dateList.append(k)
+        precision.append(v['performance']['precision'])
+        f1.append(v['performance']['f1_score'])
+        
+    plt.figure(figsize = (15, 8))
+    plt.plot(dateList, precision, label = 'precision')
+    plt.plot(dateList, f1,label = 'f1 score')
+    plt.xticks(rotation = 90)
+    plt.legend()
+    plt.show()
+    
+    np.mean(precision)
             
             
             

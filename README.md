@@ -12,7 +12,53 @@ This is the repository for ML final project.
 
 #### 1.Project Goal
 
-Our project is about short-term market timing strategy based on boosting ML algos. We try to use macroeconomic data,other related stock market indicators plus technique alphas to predict whether windA will move up or down in next trade day. We hope to find some useful factors to do timing strategy and beat the benchmark. Besides, we consider that it is important to solve overfitting problem. As a result, we will use cross validation to tune hyperparameters and evaluate the model performance in machine learning level. We will also use CSCV framework to evaluate the probability of overfitting in backtesting level.
+As the global financial market is generating mass data of different types every day, it is becoming more crucial and more difficult to effectively extract and use these data to predict the trend of stocks. The short term timing strategy has a few difficulties as follows:
+
+1. Market sentiments strongly influence the short-term market trend;
+2. How to extract effective factors;
+3. How to build nonlinear factors;
+4. How to solve colinearity among factors.
+
+Fortunately, the development of machine learning offers us a possible approach. In this project, we recognize the future rise or fall as a classification problem and implement several machine learning algorithms to predict the future rise or fall of Wind All A Index, an index indicating the trend of Chinese A Share stocks, to build a short-term timing investment strategy.
+
+We implement a feature selection to choose 18 features (factors) out of 31 daily factor data and 8 alpha factors from WorldQuant101 to establish classifiers using logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. The time period of these data is from April 1, 2008 to March 6, 2020. The whole work flow is shown in Figure 1.
+
+```mermaid
+graph TB
+A1[Wind A]---A[raw data]
+A2[S&P 500]---A
+A3[...]---A
+A4[alpha002]---A
+A-->B[processed data]
+B1[process NaN]-.->B2
+B2[standardization]-.->B3
+B3[compute correlation]-.->A
+B-->C[selected features]
+C1[feature selection]-.->B
+C-->D[classification]
+D1[LR,KNN,SVM,DT]-.->C
+D2[perceptron]-.->C
+D3[XGBoost, NN]-.->C
+D-->E[rolling prediction]
+E-->F[update position]
+F-->G[return, indicators of strategy]
+```
+
+Figure 1. Work flow of the project
+
+As the financial data are time series data, implementing a random splitting of training and testing data sets will lead to the use of future data, which makes the results of the models inaccurate. Therefore, we implement an expanding window backtest procedure as follows: 
+
+1. We get at least 1800 days' data as the training dataset and implement different k-fold cross validation methods to tune the hyperparameters for the best model, so the first signal we can get in on February 24, 2015.
+2. We implement the best model in the previous step to predict the rise or fall of Wind All A Index the next day. If the predicted signal is rise, then we buy Wind All A Index at the close of the day. If it is predicted to fall, then we short it at the close of the day.
+3. We use the best model in Step 2 for 20 consecutive trading days and then add the 20 days' data into the training set in Step 1 to enter Step 1 again.
+
+![image-20200411110220835](C:\Users\alfre\AppData\Roaming\Typora\typora-user-images\image-20200411110220835.png)
+
+Figure 2. Flow chart of the expanding window backtest model for short-term timing strategy
+
+As we can see from Figure 2, every 20 consecutive trading days the training dataset will expand 20 more days' data.
+
+We will also use CSCV framework to evaluate the probability of overfitting in backtesting level.
 
 #### 2.Data Selection
 

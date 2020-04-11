@@ -8,7 +8,7 @@ Created on Fri Mar 20 12:31:06 2020
 import pandas as pd
 import numpy as np
 
-class position(object):
+class Position(object):
     """
     Determine the strategy position every trading moment.
     

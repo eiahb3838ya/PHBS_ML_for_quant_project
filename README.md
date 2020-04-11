@@ -30,17 +30,10 @@ A2[S&P 500]---A
 A3[...]---A
 A4[alpha002]---A
 A-->B[processed data]
-B1[process NaN]-.->B2
-B2[standardization]-.->B3
-B3[compute correlation]-.->A
 B-->C[selected features]
-C1[feature selection]-.->B
 C-->D[classification]
-D1[LR,KNN,SVM,DT]-.->C
-D2[perceptron]-.->C
-D3[XGBoost, NN]-.->C
 D-->E[rolling prediction]
-E-->F[update position]
+E-->F[long-short NaV]
 F-->G[return, indicators of strategy]
 ```
 
@@ -52,7 +45,7 @@ As the financial data are time series data, implementing a random splitting of t
 2. We implement the best model in the previous step to predict the rise or fall of Wind All A Index the next day. If the predicted signal is rise, then we buy Wind All A Index at the close of the day. If it is predicted to fall, then we short it at the close of the day.
 3. We use the best model in Step 2 for 20 consecutive trading days and then add the 20 days' data into the training set in Step 1 to enter Step 1 again.
 
-![image-20200411144905755](C:\Users\alfre\AppData\Roaming\Typora\typora-user-images\image-20200411144905755.png)
+![image-20200411110220835](C:\Users\alfre\AppData\Roaming\Typora\typora-user-images\image-20200411110220835.png)
 
 Figure 2. Flow chart of the expanding window backtest model for short-term timing strategy
 

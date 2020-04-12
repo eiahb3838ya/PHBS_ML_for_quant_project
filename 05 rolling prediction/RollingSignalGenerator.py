@@ -164,7 +164,7 @@ if __name__ =='__main__':
 
     selector = varianceThresholdSelection
     # myPredictModel = MyDeepLearningClassifier
-    myPredictModel =  MyLogisticRegClassifier
+    myPredictModel =  MyKNNClassifier
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)

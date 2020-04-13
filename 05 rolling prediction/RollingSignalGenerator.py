@@ -164,7 +164,7 @@ if __name__ =='__main__':
 
     selector = treeSelection
     # myPredictModel = MyDeepLearningClassifier
-    myPredictModel =  MyNaiveBayesClassifier
+    myPredictModel =  MyLogisticRegClassifier
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)

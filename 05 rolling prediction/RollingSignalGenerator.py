@@ -162,9 +162,9 @@ if __name__ =='__main__':
     
     recordModels = True
 
-    selector = naiveSelection
+    selector = pcaSelection
     # myPredictModel = MyDeepLearningClassifier
-    myPredictModel =  MySVMClassifier
+    myPredictModel =  MyLogisticRegClassifier
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)

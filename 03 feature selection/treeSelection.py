@@ -2,7 +2,7 @@
 """
 Created on Wed Mar 25 19:39:09 2020
 
-@author: trista
+@author: alfre
 """
 from sklearn import preprocessing
 import warnings
@@ -14,7 +14,7 @@ import pandas as pd
 import os
 
 
-def treeSelection(X_train, y_train, X_test, y_test, method = None, returnCoef = False):
+def treeSelection(X_train, y_train, X_test, y_test, verbal = None, returnCoef = False):
     '''
     choose the model = 'Tree'
     fit any feature_selection model with the X_train, y_train
@@ -44,7 +44,7 @@ def treeSelection(X_train, y_train, X_test, y_test, method = None, returnCoef = 
     X_test = X_test[getSelectedName]
     coef = pd.Series(coef)
     
-    if method == True:
+    if verbal == True:
         print('The total feature number is '+ str(sum(index == True)))
         print('The selected feature name is '+ str(getSelectedName))
         

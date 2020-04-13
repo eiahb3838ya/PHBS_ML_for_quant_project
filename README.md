@@ -341,6 +341,8 @@ As 1.6 has already explained, we implement an expanding window prediction proced
 
 ![](D:\Postgraduate\Module3\Machine Learning for Finance\PHBS_ML_for_quant_project\10 readmeMaterial\buySell.png)
 
+Figure 6. the buy and sell time points
+
 ### PART4 Timing Investment Return and Assessments
 
 #### 4.1 Position Formation and Return Calculation
@@ -365,27 +367,11 @@ Table 3. long-short strategy
 | (1, 0)                                         | sell     |
 | (1, 1), (-1, 0)                                | hold     |
 
-Implementing these two rules
+Implementing these two rules, we calculate the return of the strategies and Figure 7a shows their performances.
 
-#### 5. Single Model to classifier
+#### 4.2 Assessments
 
-do cv. turning the hyperpramaters.
 
-total num is  7 base classifier models.(Logistic Regression, SVM, KNN, Naive Bayes, NeuralNetwork,Perceptron,Decision Tree)
-
-print output roc,auc,etc
-
-#### 6.Boosting Model to implement model
-
-XGBoost model performance is reeeeally good.
-
-#### 7.Deep Learning algos to predict
-
-Use sequential Model to make classifier. This case is not very suitable for deep learning algos because of small size of dataset.
-
-#### 8.Evaluation overfitting framework
-
-CSCV cross validation framework to evaluate the overfitting rate of each method.
 
 #### Reference
 

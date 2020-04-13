@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 25 19:39:09 2020
 
-@author: Trista
+@author: alfre
 """
-
 from sklearn import preprocessing
 import warnings
 warnings.filterwarnings('ignore')
@@ -74,4 +72,3 @@ if __name__ == '__main__':
        return X_train,y_train,X_test, y_test
     X_train,y_train,X_test, y_test = split_train_test_data(rawXs,rawYs,test_size = 0.3)
     X_train, X_test = treeSelection(X_train, y_train, X_test, y_test,method = True, returnCoef = False)
-    

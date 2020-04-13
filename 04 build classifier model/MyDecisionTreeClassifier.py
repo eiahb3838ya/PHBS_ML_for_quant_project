@@ -2,7 +2,7 @@
 """
 Created on Mon Mar 23 13:26:29 2020
 
-@author: Evan
+@author: alfre
 """
 
 from sklearn.tree import DecisionTreeClassifier
@@ -33,5 +33,3 @@ if __name__ == '__main__':
     test.fit(X_train,y_train)
     test.model.score(X_train,y_train)
     test.model.score(X_test,y_test)
-
-    

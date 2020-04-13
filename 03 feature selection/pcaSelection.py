@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr  8 17:48:50 2020
+Created on Wed Apr 8 17:48:50 2020
 
-@author: Trista
+@author: alfre
 """
 import pandas as pd
 import os
@@ -81,5 +80,3 @@ if __name__ == '__main__':
         return X_train,y_train,X_test, y_test
     X_train,y_train,X_test, y_test = split_train_test_data(rawXs,rawYs,test_size = 0.3)
     X_train, X_test = pcaSelection(X_train,y_train,X_test, y_test, verbal = True, returnCoef = False)
-    
-    

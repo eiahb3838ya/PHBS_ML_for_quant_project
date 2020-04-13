@@ -2,8 +2,9 @@
 """
 Created on Mon Mar 23 12:56:45 2020
 
-@author: Evan
+@author: alfre
 """
+
 import pandas as pd
 import os
 from sklearn import preprocessing
@@ -63,4 +64,3 @@ if __name__ == '__main__':
         return X_train,y_train,X_test, y_test
     X_train,y_train,X_test, y_test = split_train_test_data(rawXs,rawYs,test_size = 0.3)
     X_train, X_test = naiveSelection(X_train,y_train,X_test, y_test, method = True, returnCoef = False)
-    

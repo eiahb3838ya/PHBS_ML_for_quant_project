@@ -164,7 +164,7 @@ if __name__ =='__main__':
 
     selector = naiveSelection
     # myPredictModel = MyDeepLearningClassifier
-    myPredictModel =  MyPerceptronClassifier
+    myPredictModel =  MyDecisionTreeClassifier
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)

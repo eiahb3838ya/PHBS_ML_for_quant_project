@@ -2,7 +2,7 @@
 """
 Created on Wed Mar 25 19:39:09 2020
 
-@author: alfre
+@author: trista
 """
 from sklearn import preprocessing
 import warnings

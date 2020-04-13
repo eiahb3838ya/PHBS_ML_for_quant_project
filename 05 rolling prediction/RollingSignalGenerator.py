@@ -164,7 +164,7 @@ if __name__ =='__main__':
 
     selector = naiveSelection
     # myPredictModel = MyDeepLearningClassifier
-    myPredictModel =  MyNaiveBayesClassifier
+    myPredictModel =  MyKNNClassifier
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)

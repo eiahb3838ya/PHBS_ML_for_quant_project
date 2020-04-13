@@ -162,7 +162,7 @@ if __name__ =='__main__':
     
     recordModels = True
 
-    selector = varianceThresholdSelection
+    selector = pcaSelection
     # myPredictModel = MyDeepLearningClassifier
     myPredictModel =  MyNaiveBayesClassifier
     

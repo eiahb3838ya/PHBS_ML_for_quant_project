@@ -1,3 +1,6 @@
+# THE LINK FOR IPYNB FOR PRESENTATION
+ https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/09%20for%20Pre%20Part
+
 # PHBS_ML_for_quant_project
 This is the repository for ML final project.
 

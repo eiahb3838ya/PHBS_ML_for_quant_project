@@ -1,7 +1,7 @@
 # PHBS_ML_for_quant_project
 This is the repository for ML final project.
 
-#### 0.Team Member
+### 0.Team Member
 
 | Name                | Student ID | GitHub                                          |
 | ------------------- | ---------- | ----------------------------------------------- |
@@ -10,18 +10,42 @@ This is the repository for ML final project.
 | Zhihao Chen/Alfred  | 1901212567 | [AlfredChenZH](https://github.com/AlfredChenZH) |
 | Zilei Wang/ Lorelei | 1901212645 | [LoreleiWong](https://github.com/LoreleiWong)   |
 
-#### 1.Project Goal
+### PART1 Introduction
 
-As the global financial market is generating mass data of different types every day, it is becoming more crucial and more difficult to effectively extract and use these data to predict the trend of stocks. The short term timing strategy has a few difficulties as follows:
+#### 1.1 Motivation
+
+As the global financial market is generating mass data of different types every day, it is becoming more crucial and more **difficult to effectively extract and use these data to predict the trend of stocks**. The short-term timing strategy has a few difficulties, a few of which are listed as follows:
 
 1. Market sentiments strongly influence the short-term market trend;
 2. How to extract effective factors;
 3. How to build nonlinear factors;
-4. How to solve colinearity among factors.
+4. How to solve collinearity among factors.
 
-Fortunately, the development of machine learning offers us a possible approach. In this project, we recognize the future rise or fall as a classification problem and implement several machine learning algorithms to predict the future rise or fall of Wind All A Index, an index indicating the trend of Chinese A Share stocks, to build a short-term timing investment strategy.
+#### 1.2 Our project goal
 
-We implement a feature selection to choose 18 features (factors) out of 31 daily factor data and 8 alpha factors from WorldQuant101 to establish classifiers using logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. The time period of these data is from April 1, 2008 to March 6, 2020. The whole work flow is shown in Figure 1.
+In this project, we recognize the **price up or down** as a **classification problem** and implement several **machine learning algorithms** to predict the future price up or down of **WindA Index(Y)**([881001.csv](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/00 data/881001.csv)), an index indicating the trend of Chinese A Share stocks, to build a **short-term timing strategy**.
+
+#### 1.3 Brief Summary of Dataset[¶](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/ML_project_Part_1%2B2.ipynb#1.3-Brief-Summary-of-Dataset)
+
+The X (dataset) consists of three parts: **macroeconomic data in china**([cleanedFactor.pkl](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/00 data/cleanedFactor.pkl)), **American index indicators**, like ([DJI.GI,NQ.CME](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/00 data/AddNewData)) and some alpha factors built using OHLC prices of WindA as in WorldQuant101.
+The Y is 0/1 **boolean value indicating fall/rise of windA** in next trading day.
+The total number of features is 60.
+The time period: from 20080401 to 20200306.
+The data can be acquired from Wind Database directly. All factors are based on daily frequency data.
+
+#### 1.4 Dataset sample
+
+Here is a sample of the dataset.
+
+![images](00%20data/features.png)
+
+![images](00%20data/price.png)
+
+Figure 1. Sample data
+
+#### 1.5 Work flow
+
+We implement a feature selection to choose 18 features (factors) out of 52 daily factor data and 8 alpha factors from WorldQuant101 to establish classifiers using logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. Then we The whole work flow is shown in Figure 2.
 
 ```mermaid
 graph TB
@@ -37,30 +61,35 @@ E-->F[long-short NaV]
 F-->G[return, indicators of strategy]
 ```
 
-Figure 1. Work flow of the project
+Figure 2. Work flow of the project
 
-As the financial data are time series data, implementing a random splitting of training and testing data sets will lead to the use of future data, which makes the results of the models inaccurate. Therefore, we implement an expanding window backtest procedure as follows: 
+#### 1.6 Rolling Prediction
 
-1. We get at least 1800 days' data as the training dataset and implement different k-fold cross validation methods to tune the hyperparameters for the best model, so the first signal we can get in on February 24, 2015.
-2. We implement the best model in the previous step to predict the rise or fall of Wind All A Index the next day. If the predicted signal is rise, then we buy Wind All A Index at the close of the day. If it is predicted to fall, then we short it at the close of the day.
+As the financial data are time series data, we implement an **expanding window** training and prediction procedure as follows: 
+
+1. We get at least 1800 days' data as the training dataset and use k-fold cross validation method to tune the hyperparameters for the best model, so the first signal we can get is the 1801 day.
+2. The signal is the predict results of the up or down of WindA Index in the next day. If the signal is predicted to be 1, then we buy WindA Index at the close of the day. If it is predicted as 0, then we short WindA or do nothing at the close of the day.
 3. We use the best model in Step 2 for 20 consecutive trading days and then add the 20 days' data into the training set in Step 1 to enter Step 1 again.
 
 ![image-20200411110220835](C:\Users\alfre\AppData\Roaming\Typora\typora-user-images\image-20200411110220835.png)
 
-Figure 2. Flow chart of the expanding window backtest model for short-term timing strategy
+Figure 3. Flow chart of the expanding window backtest model for short-term timing strategy
 
-As we can see from Figure 2, every 20 consecutive trading days the training dataset will expand 20 more days' data.
+As we can see from Figure 3, every 20 consecutive trading days the training dataset will expand 20 more days' data.
 
 We will also use CSCV framework to evaluate the probability of overfitting in backtesting level.
 
-#### 2.Data Selection
+### Data Preprocessing and Feature Selection
 
-Dataset：According to the research report of Industrial Securities, we choose macroeconomic data([cleanedFactor.pkl](00%20data/cleanedFactor.pkl)) plus OHLC data of windA([881001.csv](00%20data/881001.csv)), and we add new data about index indicators, like ([DJI.GI,NQ.CME](00%20data/AddNewData)). The data can be acquired from Wind Database directly(Denoted by D in the table). All factors are based on daily frequency data.
+#### 2.1 Data Collection
 
-Sample:
-![images](00%20data/features.png)
+The goal of our timing model is to forecast Wind All A Index, using 60 factors including interest rate factors, commodity factors and other factors. And the time range of our data is from April 1, 2008 to March 6, 2020.
 
-![images](00%20data/price.png)
+Except for the factors chosen in our reference research report, we add two kinds of features. One of them is Shanghai Composite Index, which is a good indicator that reflects Chinese stock market expectations. The other is stock indexes of foreign stock market, including Nikkei Index and three American stock indexes, because we believe that the volatility of foreign stock prices can have a significant influence on Chinese market.
+
+We also establish eight alpha factors using OHLC prices of WindA index following WorldQuant101. An example is
+
+
 
 #### 3.Data clean details
 
@@ -109,6 +138,10 @@ CSCV cross validation framework to evaluate the overfitting rate of each method.
 
 #### Reference
 
+Mingming Yu, Min Guan. (2019). Systematic Asset Allocation Series III of Xingye Securities: A Short-Term Market Timing Strategy Based on AdaBoost Machine Learning Algorithms. Xingye Securities.
 
+Xiaoming Lin, Ye Chen. (2019). Artificial Intelligence Series XXII of Huatai Securities: Probability of Backtest Overfitting Based on CSCV Framework. Huatai Securities.
+
+Zura Kakushadze. (2016). 101 formulaic alphas. *Social Science Electronic Publishing*, *2016*(84), 72–81.
 
 meeting log url:https://hackmd.io/maqBPlJXQCuxeWJi7ga5AA?both

@@ -25,7 +25,7 @@ As the global financial market is generating mass data of different types every 
 
 In this project, we recognize the **price up or down** as a **classification problem** and implement several **machine learning algorithms** to predict the future price up or down of **WindA Index(Y)**([881001.csv](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/00 data/881001.csv)), an index indicating the trend of Chinese A Share stocks, to build a **short-term timing strategy**.
 
-#### 1.3 Brief Summary of Dataset[¶](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/ML_project_Part_1%2B2.ipynb#1.3-Brief-Summary-of-Dataset)
+#### 1.3 Brief Summary of Dataset
 
 The X (dataset) consists of three parts: **macroeconomic data in china**([cleanedFactor.pkl](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/00 data/cleanedFactor.pkl)), **American index indicators**, like ([DJI.GI,NQ.CME](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/00 data/AddNewData)) and some alpha factors built using OHLC prices of WindA as in WorldQuant101.
 The Y is 0/1 **boolean value indicating fall/rise of windA** in next trading day.
@@ -45,7 +45,7 @@ Figure 1. Sample data
 
 #### 1.5 Work flow
 
-We implement a feature selection to choose 18 features (factors) out of 52 daily factor data and 8 alpha factors from WorldQuant101 to establish classifiers using logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. Then we The whole work flow is shown in Figure 2.
+We implement a feature selection to choose 18 features (factors) out of 52 daily factor data and 8 alpha factors from WorldQuant101 to establish classifiers using logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. We build our models and renew them, using them to predict the price up or down of the next trading days. Next we calculate the long-short net asset value (NAV) of WindA based on the position we hold according to the predictions. After that we do some tests and assessments on the strategy. The whole work flow is shown in Figure 2.
 
 ```mermaid
 graph TB
@@ -71,7 +71,7 @@ As the financial data are time series data, we implement an **expanding window**
 2. The signal is the predict results of the up or down of WindA Index in the next day. If the signal is predicted to be 1, then we buy WindA Index at the close of the day. If it is predicted as 0, then we short WindA or do nothing at the close of the day.
 3. We use the best model in Step 2 for 20 consecutive trading days and then add the 20 days' data into the training set in Step 1 to enter Step 1 again.
 
-![image-20200411110220835](C:\Users\alfre\AppData\Roaming\Typora\typora-user-images\image-20200411110220835.png)
+![](D:\Postgraduate\Module3\Machine Learning for Finance\PHBS_ML_for_quant_project\10 readmeMaterial\expand.png)
 
 Figure 3. Flow chart of the expanding window backtest model for short-term timing strategy
 
@@ -79,7 +79,7 @@ As we can see from Figure 3, every 20 consecutive trading days the training data
 
 We will also use CSCV framework to evaluate the probability of overfitting in backtesting level.
 
-### Data Preprocessing and Feature Selection
+### PART2 Data Preprocessing and Feature Selection
 
 #### 2.1 Data Collection
 
@@ -138,9 +138,9 @@ Table 1. Factors we use (part)
 
 We also establish eight alpha factors using OHLC prices of WindA index following WorldQuant101. An example is
 
-​		Alpha #2: $-1\times{corr}(rank(delta(log(volume),2)),rank(((close-open)/open)),6))$
+​		Alpha #34: the mean of the close prices of the last 12 days
 
-#### 2.2 Label Genration
+#### 2.2 Label Generation
 
 We compute the daily return of WindA index and label each day based on the return. If the return of the next day is positive, which means the price goes up, we label this day 1; else we label this day 0.
 
@@ -156,7 +156,7 @@ Figure 4. number of NaN values in each factor
 
 We use MAD method to limit feature values to the range of $[median-n\times{MAD},median+n\times{MAD}]$. We also standardize data before training our models.
 
-Since we will roll all data in the following classifier models, it is necessary to calculate median, mean and variance of training data and testing data for each scrolling window, so we encapsulate the cutExtreme funtion to achieve standard input and output in cutting extreme values.
+Since we will roll all data in the following classifier models, it is necessary to calculate median, mean and variance of training data and testing data for each scrolling window, so we encapsulate the cutExtreme function to achieve standard input and output in cutting extreme values.
 
 #### 2.5 Correlation 
 
@@ -170,7 +170,7 @@ Figure 5. Pearson and Spearman correlation heat maps of factors
 
 #### 2.6 feature selection
 
-We can see that correlation among these factors are relatively high, which is easy to understand. In order to solve this problem, we adopt some particular feature selection functionss to deal with this issue as can be seen in the following part.
+We can see that correlation among these factors are relatively high, which is easy to understand. In order to solve this problem, we adopt some particular feature selection functions to deal with this issue as can be seen in the following part.
 
 Here we build five models to select features:
 * naiveSelection.py
@@ -227,14 +227,117 @@ def pcaSelection(X_train, y_train, X_test, y_test, verbal = None, returnCoef = F
         return(X_train, X_test, coef)
 ```
 
+#### PART3 Building Classifiers
+
+As we have already converted the problem into a classification prediction problem, we need to build classifiers based on machine learning algorithms to implement on the selected features.
+
+#### 3.1 Machine Learning Algorithms
+
+We implement logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. Below are some sample codes of implementing these algorithms as classifiers.
+
+```python
+class MyLogisticRegClassifier:
+    def __init__(self):
+        self.parameter = self.getPara()
+        self.model = LogisticRegression()
+        
+    def getPara(self):
+        # do some how cv or things to decide the hyperparameter
+        return({})
+        
+    def fit(self, X, y):
+        # do what ever plot or things you like 
+        # just like your code
+        # self.model.fit(X,y)
+        return(self.model.fit(X, y))
+```
+
+```python
+from xgboost import XGBClassifier
+from parametersRepo import *
+
+class MyXGBoostClassifier:
+    def __init__(self):
+        self.parameter = self.getPara()
+        self.model =  XGBClassifier(seed=self.parameter['model_seed'],
+                                    n_estimators=self.parameter['n_estimators'],
+                                    max_depth=self.parameter['max_depth'],
+                                    learning_rate=self.parameter['learning_rate'],
+                                    min_child_weight=self.parameter['min_child_weight'])
+        
+    def getPara(self):
+        # do some how cv or things to decide the hyperparameter
+        # n_neighbors = 15
+        # weights = 'uniform'
+        return(paraXGBoost)
+        
+    def fit(self, X, y):
+        # do what ever plot or things you like 
+        # just like your code
+        return(self.model.fit(X, y))
+        
+    def predict(self, X):
+        return(self.model.predict(X))
+    
+if __name__ == '__main__':
+    test = MyXGBoostClassifier()
+    test.fit(X_train,y_train)
+    test.model.score(X_train,y_train)
+    test.model.score(X_test,y_test)
+```
+
+```python
+from parametersRepo import *
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
+from keras import models,layers
+import pandas as pd
+
+class MyDeepLearningClassifier:
+    def __init__(self):
+        self.parameter = None
+        self.model = None
+        
+    def getPara(self):
+        # do some how cv or things to decide the hyperparameter
+        # return dict
+        if self.parameter == None:
+            print('Hi~ please first use fit function to get model :)')
+        else:
+            print('haha! We already trained deepLearning Model~')
+            return self.parameter
+        return self.parameter
+        
+    def fit(self, X, y):
+        # do what ever plot or things you like 
+        # just like your code
+        self.parameter = len(X.columns)
+        model = models.Sequential()
+        model.add(Dense(30,activation = 'relu',input_shape=(len(X.columns),)))
+        model.add(Dropout(0.1))
+        model.add(Dense(1,activation = 'sigmoid' ))
+        # model.summary()
+        model.compile( loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'] )
+        self.model = model
+        return(self.model.fit(X, y,
+                              validation_split=0.2, 
+                              epochs=1, batch_size=10, verbose=2))
+        
+    def predict(self, X):
+        return(pd.Series(self.model.predict_classes(X).flatten()).astype(bool))
+
+if __name__ == '__main__':
+    test = MyDeepLearningClassifier()
+    test.fit(X_train,y_train)
+    test.predict(X_test)
+    # test.model.score(X_train,y_train)
+    # test.model.score(X_test,y_test)
+    # test.model.predict(X_test)
+```
+
+#### 3.2 Rolling Prediction
 
 
-#### 3.Data clean details
-
-1. **Data formats, structures**﻿
-   ﻿design a process for data cleaning. Remove NA values and make the format easy to slice according to time. Use dict and pandas dataframe to design our structure.
-2. **Data Normalization**﻿
-   ﻿design a class for normalization work, which provides method including loading , calculating, saving data according to parameters given. At least implement two kinds of normalization, including min-max, z-score normalization.
 
 #### 4. Explore and analysis data:
 

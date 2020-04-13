@@ -162,7 +162,7 @@ if __name__ =='__main__':
     
     recordModels = True
 
-    selector = treeSelection
+    selector = varianceThresholdSelection
     # myPredictModel = MyDeepLearningClassifier
     myPredictModel =  MyKNNClassifier
     

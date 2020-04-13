@@ -162,9 +162,9 @@ if __name__ =='__main__':
     
     recordModels = True
 
-    selector = varianceThresholdSelection
+    selector = naiveSelection
     # myPredictModel = MyDeepLearningClassifier
-    myPredictModel =  MyKNNClassifier
+    myPredictModel =  MyLogisticRegClassifier
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)

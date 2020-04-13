@@ -337,25 +337,35 @@ if __name__ == '__main__':
 
 #### 3.2 Rolling Prediction
 
+As 1.6 has already explained, we implement an expanding window prediction procedure to predict future price trends of WindA. Based on the predictions, we make our decisions about when to buy/long and when to sell/short. Figure 6 shows the buy and sell points during the whole process (naiveSelection+XGBoost, the below figures all using this pair).
 
+![](D:\Postgraduate\Module3\Machine Learning for Finance\PHBS_ML_for_quant_project\10 readmeMaterial\buySell.png)
 
-#### 4. Explore and analysis data:
+### PART4 Timing Investment Return and Assessments
 
-The description of dataset is in [report](08%20report/inputDataReport.html).
+#### 4.1 Position Formation and Return Calculation
 
-1. **Visualiztion**﻿
-   ﻿to check if our data follow required statistical assumptions, we will visualize our data using seaborn or other tools. Draw a heat map to check the corr_coef of each factors. 
+We form two position strategies: pure long and long-short. We use the (today's position, next day's prediction) pair to explain how these two strategies work.
 
-2. **Feature engineering** use tech indicator to build some factor like wq101.
+Table 2. pure long strategy
 
-3. **Feature selection**﻿
-   ﻿to check which factors have better prediction power. We will apply feature selection methods including Cross Entropy, information gain, gini coef, LASSO. Draw the graph for each factor accordingly 
+| (today's position, next day's prediction) pair | movement |
+| ---------------------------------------------- | -------- |
+| (0, 0)                                         | empty    |
+| (0, 1)                                         | buy      |
+| (1, 0)                                         | sell     |
+| (1, 1)                                         | hold     |
 
-   Now(naive，SVCL1，tree，varianceThreshold，PCA)
+Table 3. long-short strategy
 
-4. **Check the efficiency of features** (waiting to do) calculate the IC
+| (today's position, next day's prediction) pair | movement |
+| ---------------------------------------------- | -------- |
+| (0, 0)                                         | short    |
+| (0, 1), (-1, 1)                                | buy      |
+| (1, 0)                                         | sell     |
+| (1, 1), (-1, 0)                                | hold     |
 
-5. **Decomposition**﻿ We can try PCA method to avoid dimension disaster, pick the top 5, 10 vectors as our feature to input.
+Implementing these two rules
 
 #### 5. Single Model to classifier
 

@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Thu Mar 19 16:20:26 2020
 
-@author: mac
+@author: alfre
 """
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np

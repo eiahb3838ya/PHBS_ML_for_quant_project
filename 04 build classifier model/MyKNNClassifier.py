@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Apr  4 21:57:19 2020
+Created on Sat Apr 4 21:57:19 2020
 
-@author: Evan
+@author: alfre
 """
 
 from sklearn import neighbors
@@ -26,4 +26,3 @@ class MyKNNClassifier:
         
     def predict(self, X):
         return(self.model.predict(X))
-    

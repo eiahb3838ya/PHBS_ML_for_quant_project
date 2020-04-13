@@ -162,7 +162,7 @@ if __name__ =='__main__':
     
     recordModels = True
 
-    selector = SVCL1Selection
+    selector = treeSelection
     # myPredictModel = MyDeepLearningClassifier
     myPredictModel =  MyKNNClassifier
     

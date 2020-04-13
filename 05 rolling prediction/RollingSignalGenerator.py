@@ -162,9 +162,9 @@ if __name__ =='__main__':
     
     recordModels = True
 
-    selector = varianceThresholdSelection
+    selector = pcaSelection
     # myPredictModel = MyDeepLearningClassifier
-    myPredictModel =  MyKNNClassifier
+    myPredictModel =  MyNeuralNetworkClassifier
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)

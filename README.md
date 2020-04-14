@@ -50,20 +50,7 @@ Figure 1. Sample data
 
 We implement a feature selection to choose 18 features (factors) out of 52 daily factor data and 8 alpha factors from WorldQuant101 to establish classifiers using logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. We build our models and renew them, using them to predict the price up or down of the next trading days. Next we calculate the long-short net asset value (NAV) of WindA based on the position we hold according to the predictions. After that we do some tests and assessments on the strategy. The whole work flow is shown in Figure 2.
 
-```mermaid
-graph TB
-A1[Wind A]---A[raw data]
-A2[S&P 500]---A
-A3[...]---A
-A4[alpha002]---A
-A-->B[processed data]
-B-->C[selected features]
-C-->D[classification]
-D-->E[rolling prediction]
-E-->F[long-short NaV]
-F-->G[return, indicators of strategy]
-```
-
+![images](10%20readmeMaterial/workFlow.png)
 Figure 2. Work flow of the project
 
 #### 1.6 Rolling Prediction
@@ -74,7 +61,7 @@ As the financial data are time series data, we implement an **expanding window**
 2. The signal is the predict results of the up or down of WindA Index in the next day. If the signal is predicted to be 1, then we buy WindA Index at the close of the day. If it is predicted as 0, then we short WindA or do nothing at the close of the day.
 3. We use the best model in Step 2 for 20 consecutive trading days and then add the 20 days' data into the training set in Step 1 to enter Step 1 again.
 
-![](D:\Postgraduate\Module3\Machine Learning for Finance\PHBS_ML_for_quant_project\10 readmeMaterial\expand.png)
+![images](10%20readmeMaterial/expand.png)
 
 Figure 3. Flow chart of the expanding window backtest model for short-term timing strategy
 
@@ -151,7 +138,7 @@ We compute the daily return of WindA index and label each day based on the retur
 
 Then we compute the number of NaN in each factor, as shown in Figure 4. After dropping all NaN including non-trading day data and other missing data, we get a dataframe including 2,903 observations.
 
-![](D:\Postgraduate\Module3\Machine Learning for Finance\PHBS_ML_for_quant_project\10 readmeMaterial\NaN.png)
+![images](10%20readmeMaterial/NaN.png)
 
 Figure 4. number of NaN values in each factor
 
@@ -165,9 +152,9 @@ Since we will roll all data in the following classifier models, it is necessary 
 
 We calculate the Pearson and Spearman correlation of these factors and Figure 5 shows the correlation heat maps.
 
-![](D:\Postgraduate\Module3\Machine Learning for Finance\PHBS_ML_for_quant_project\10 readmeMaterial\pearson.png)
+![images](10%20readmeMaterial/pearson.png)
 
-![](D:\Postgraduate\Module3\Machine Learning for Finance\PHBS_ML_for_quant_project\10 readmeMaterial\spearman.png)
+![images](10%20readmeMaterial/spearman.png)
 
 Figure 5. Pearson and Spearman correlation heat maps of factors
 
@@ -218,11 +205,9 @@ def pcaSelection(X_train, y_train, X_test, y_test, verbal = None, returnCoef = F
     X_test = pca.transform(X_test)
     
     coef = pd.Series()
-    # featureName = None
     
     if verbal == True:
         print('The total feature number is '+ str(X_train.shape[1]))
-       # print('The selected feature name is '+ str(featureName))
        
     if not returnCoef:
         return(X_train, X_test)
@@ -281,12 +266,6 @@ class MyXGBoostClassifier:
         
     def predict(self, X):
         return(self.model.predict(X))
-    
-if __name__ == '__main__':
-    test = MyXGBoostClassifier()
-    test.fit(X_train,y_train)
-    test.model.score(X_train,y_train)
-    test.model.score(X_test,y_test)
 ```
 
 ```python
@@ -327,22 +306,14 @@ class MyDeepLearningClassifier:
                               epochs=1, batch_size=10, verbose=2))
         
     def predict(self, X):
-        return(pd.Series(self.model.predict_classes(X).flatten()).astype(bool))
-
-if __name__ == '__main__':
-    test = MyDeepLearningClassifier()
-    test.fit(X_train,y_train)
-    test.predict(X_test)
-    # test.model.score(X_train,y_train)
-    # test.model.score(X_test,y_test)
-    # test.model.predict(X_test)
+       	 return(pd.Series(self.model.predict_classes(X).flatten()).astype(bool))
 ```
 
 #### 3.2 Rolling Prediction
 
 As 1.6 has already explained, we implement an expanding window prediction procedure to predict future price trends of WindA. Based on the predictions, we make our decisions about when to buy/long and when to sell/short. Figure 6 shows the buy and sell points during the whole process (naiveSelection+XGBoost, the below figures all using this pair).
 
-![](D:\Postgraduate\Module3\Machine Learning for Finance\PHBS_ML_for_quant_project\10 readmeMaterial\buySell.png)
+![images](10%20readmeMaterial/buySell.png)
 
 Figure 6. the buy and sell time points
 
@@ -370,11 +341,13 @@ Table 3. long-short strategy
 | (1, 0)                                         | sell     |
 | (1, 1), (-1, 0)                                | hold     |
 
-Implementing these two rules, we calculate the return of the strategies and Figure 7a shows their performances.
+Implementing these two rules, we calculate the return of the strategies and Figure 7 shows their performances.
 
 #### 4.2 Assessments
 
+![images](10%20readmeMaterial/performance.png)
 
+Figure 7. Strategies' performances and win time
 
 #### Reference
 

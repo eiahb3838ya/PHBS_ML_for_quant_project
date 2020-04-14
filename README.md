@@ -44,7 +44,7 @@ Here is a sample of the dataset.
 
 ![images](00%20data/price.png)
 
-<center>Figure 1. Sample data</center>
+<p align="center">Figure 1. Sample data</p>
 
 #### 1.5 Work flow
 
@@ -52,7 +52,7 @@ We implement a feature selection to choose 18 features (factors) out of 52 daily
 
 ![images](10%20readmeMaterial/workFlow.PNG)
 
-<center>Figure 2. Work flow of the project</center>
+<p align="center">Figure 2. Work flow of the project</p>
 
 #### 1.6 Rolling Prediction
 
@@ -64,7 +64,7 @@ As the financial data are time series data, we implement an **expanding window**
 
 ![images](10%20readmeMaterial/expand.png)
 
-<center>Figure 3. Flow chart of the expanding window backtest model for short-term timing strategy</center>
+<p align="center">Figure 3. Flow chart of the expanding window backtest model for short-term timing strategy</p>
 
 As we can see from Figure 3, every 20 consecutive trading days the training dataset will expand 20 more days' data.
 
@@ -78,7 +78,7 @@ The goal of our timing model is to forecast Wind All A Index, using 60 factors i
 
 Except for the factors chosen in our reference research report, we add two kinds of features. One of them is Shanghai Composite Index, which is a good indicator that reflects Chinese stock market expectations. The other is stock indexes of foreign stock market, including Nikkei Index and three American stock indexes, because we believe that the volatility of foreign stock prices can have a significant influence on Chinese market. We list a few of these factors in Table 1.
 
-<center>Table 1. Factors we use (part)</center>
+<p align="center">Table 1. Factors we use (part)</p>
 
 |                  Name(Chinese)                  |                             Name                             |                          Frequency                           |
 | :---------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -141,7 +141,7 @@ Then we compute the number of NaN in each factor, as shown in Figure 4. After dr
 
 ![images](10%20readmeMaterial/NaN.png)
 
-<center>Figure 4. number of NaN values in each factor</center>
+<p align="center">Figure 4. number of NaN values in each factor</p>
 
 #### 2.4 Tackle with extreme values 
 
@@ -157,7 +157,7 @@ We calculate the Pearson and Spearman correlation of these factors and Figure 5 
 
 ![images](10%20readmeMaterial/spearman.png)
 
-<center>Figure 5. Pearson and Spearman correlation heat maps of factors</center>
+<p align="center">Figure 5. Pearson and Spearman correlation heat maps of factors</p>
 
 #### 2.6 feature selection
 
@@ -316,7 +316,7 @@ As 1.6 has already explained, we implement an expanding window prediction proced
 
 ![images](10%20readmeMaterial/buySell.png)
 
-<center>Figure 6. the buy and sell time points</center>
+<p align="center">Figure 6. the buy and sell time points</p>
 
 ### PART4 Timing Investment Return and Assessments
 
@@ -324,7 +324,7 @@ As 1.6 has already explained, we implement an expanding window prediction proced
 
 We form two position strategies: pure long and long-short. We use the (today's position, next day's prediction) pair to explain how these two strategies work.
 
-<center>Table 2. pure long strategy</center>
+<p align="center">Table 2. pure long strategy</p>
 
 | (today's position, next day's prediction) pair | movement |
 | ---------------------------------------------- | -------- |
@@ -333,7 +333,7 @@ We form two position strategies: pure long and long-short. We use the (today's p
 | (1, 0)                                         | sell     |
 | (1, 1)                                         | hold     |
 
-<center>Table 3. long-short strategy</center>
+<p align="center">Table 3. long-short strategy</p>
 
 | (today's position, next day's prediction) pair | movement |
 | ---------------------------------------------- | -------- |
@@ -348,7 +348,7 @@ Implementing these two rules, we calculate the return of the strategies and Figu
 
 ![images](10%20readmeMaterial/performance.png)
 
-<center>Figure 7. Strategies' performances and win time</center>
+<p align="center">Figure 7. Strategies' performances and win time</p>
 
 #### Reference
 

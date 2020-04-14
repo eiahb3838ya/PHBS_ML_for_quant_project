@@ -126,6 +126,9 @@ Except for the factors chosen in our reference research report, we add two kinds
 |             50ETF过去120日的波动率              |            50ETF volatility over the past 60 days            |                              D                               |
 |    50ETF过去120日的波动率：过去五天的变化率     | 50ETF volatility over the past 60 days: Change rate in the past five days |                              D                               |
 |           银行间同业拆借加权利率：1天           |                Interbank Offered Rate: 1 day                 |                              D                               |
+|   日经225指数   |   Nikki   |   D   |
+|   道琼斯工业指数  |  DJIA   |  D   |
+|   10年期美债收益率  |  YTM of 10- year Treasury  |   D  |
 
 We also establish eight alpha factors using OHLC prices of WindA index following WorldQuant101. An example is
 

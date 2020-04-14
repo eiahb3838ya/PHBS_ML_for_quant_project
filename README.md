@@ -62,7 +62,7 @@ As the financial data are time series data, we implement an **expanding window**
 2. The signal is the predict results of the up or down of WindA Index in the next day. If the signal is predicted to be 1, then we buy WindA Index at the close of the day. If it is predicted as 0, then we short WindA or do nothing at the close of the day.
 3. We use the best model in Step 2 for 20 consecutive trading days and then add the 20 days' data into the training set in Step 1 to enter Step 1 again.
 
-![images](10%20readmeMaterial/expand.png)
+！[images](10%20readmeMaterial/expand.png)
 
 <p align="center">Figure 3. Flow chart of the expanding window backtest model for short-term timing strategy</p>
 
@@ -74,9 +74,9 @@ We will also use CSCV framework to evaluate the probability of overfitting in ba
 
 #### 2.1 Data Collection
 
-The goal of our timing model is to forecast Wind All A Index, using 60 factors including interest rate factors, commodity factors and other factors. And the time range of our data is from April 1, 2008 to March 6, 2020.
+The goal of our timing model is to forecast Wind All A Index, using 60 factors including interest rate factors, commodity factors and other factors. And the time range of our data is from April 1, 2008 to March 6, 2020. All raw data are collected in the [file](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/00%20data/rawMacroFactor). 
 
-Except for the factors chosen in our reference research report, we add two kinds of features. One of them is Shanghai Composite Index, which is a good indicator that reflects Chinese stock market expectations. The other is stock indexes of foreign stock market, including Nikkei Index and three American stock indexes, because we believe that the volatility of foreign stock prices can have a significant influence on Chinese market. We list a few of these factors in Table 1.
+Except for the factors chosen in our reference research report, we add two kinds of features. One of them is Shanghai Composite Index, which is a good indicator that reflects Chinese stock market expectations. The other is stock indexes of foreign stock market, including Nikkei Index and three American stock indexes, because we believe that the volatility of foreign stock prices can have a significant influence on Chinese market. All new factors are collected in the [file](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/00%20data/AddNewData). We list a few of these factors in Table 1.
 
 <p align="center">Table 1. Factors we use (part)</p>
 
@@ -140,7 +140,8 @@ We compute the daily return of WindA index and label each day based on the retur
 
 #### 2.3 Tackle with NaN
 
-Then we compute the number of NaN in each factor, as shown in Figure 4. After dropping all NaN including non-trading day data and other missing data, we get a dataframe including 2,903 observations.
+Then we compute the number of NaN in each factor, as shown in Figure 4. After we [drop NaN](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/tackleWithNaN%26Extreme.ipynb) including non-trading day data and other missing data, we get a dataframe including 2,903 observations. Cleaned factors are in the [file](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/cleanedFactor.csv).
+All data are [concated](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/concatAllDf.ipynb). 
 
 ![images](10%20readmeMaterial/NaN.png)
 

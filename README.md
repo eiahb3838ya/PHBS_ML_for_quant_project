@@ -62,7 +62,7 @@ As the financial data are time series data, we implement an **expanding window**
 2. The signal is the predict results of the up or down of WindA Index in the next day. If the signal is predicted to be 1, then we buy WindA Index at the close of the day. If it is predicted as 0, then we short WindA or do nothing at the close of the day.
 3. We use the best model in Step 2 for 20 consecutive trading days and then add the 20 days' data into the training set in Step 1 to enter Step 1 again.
 
-！[images](10%20readmeMaterial/expand.png)
+![images](10%20readmeMaterial/expand.png)
 
 <p align="center">Figure 3. Flow chart of the expanding window backtest model for short-term timing strategy</p>
 

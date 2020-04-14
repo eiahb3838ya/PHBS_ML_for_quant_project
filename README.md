@@ -26,11 +26,11 @@ As the global financial market is generating mass data of different types every 
 
 #### 1.2 Our project goal
 
-In this project, we recognize the **price up or down** as a **classification problem** and implement several **machine learning algorithms** to predict the future price up or down of **WindA Index(Y)**([881001.csv](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/00 data/881001.csv)), an index indicating the trend of Chinese A Share stocks, to build a **short-term timing strategy**.
+In this project, we recognize the **price up or down** as a **classification problem** and implement several **machine learning algorithms** to predict the future price up or down of **WindA Index(Y)**([881001.csv](00%20data/881001.csv)), an index indicating the trend of Chinese A Share stocks, to build a **short-term timing strategy**.
 
 #### 1.3 Brief Summary of Dataset
 
-The X (dataset) consists of three parts: **macroeconomic data in china**([cleanedFactor.pkl](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/00 data/cleanedFactor.pkl)), **American index indicators**, like ([DJI.GI,NQ.CME](http://localhost:8888/notebooks/Postgraduate/Module3/Machine Learning for Finance/PHBS_ML_for_quant_project/09 for Pre Part/00 data/AddNewData)) and some alpha factors built using OHLC prices of WindA as in WorldQuant101.
+The X (dataset) consists of three parts: **macroeconomic data in china**([cleanedFactor.pkl](00%20data/cleanedFactor.pkl)), **American index indicators**, like ([DJI.GI,NQ.CME](00%20data/AddNewData)) and some alpha factors built using OHLC prices of WindA as in WorldQuant101.
 The Y is 0/1 **boolean value indicating fall/rise of windA** in next trading day.
 The total number of features is 60.
 The time period: from 20080401 to 20200306.
@@ -44,7 +44,7 @@ Here is a sample of the dataset.
 
 ![images](00%20data/price.png)
 
-Figure 1. Sample data
+<center>Figure 1. Sample data</center>
 
 #### 1.5 Work flow
 
@@ -64,7 +64,7 @@ As the financial data are time series data, we implement an **expanding window**
 
 ![images](10%20readmeMaterial/expand.png)
 
-Figure 3. Flow chart of the expanding window backtest model for short-term timing strategy
+<center>Figure 3. Flow chart of the expanding window backtest model for short-term timing strategy</center>
 
 As we can see from Figure 3, every 20 consecutive trading days the training dataset will expand 20 more days' data.
 
@@ -78,7 +78,7 @@ The goal of our timing model is to forecast Wind All A Index, using 60 factors i
 
 Except for the factors chosen in our reference research report, we add two kinds of features. One of them is Shanghai Composite Index, which is a good indicator that reflects Chinese stock market expectations. The other is stock indexes of foreign stock market, including Nikkei Index and three American stock indexes, because we believe that the volatility of foreign stock prices can have a significant influence on Chinese market. We list a few of these factors in Table 1.
 
-Table 1. Factors we use (part)
+<center>Table 1. Factors we use (part)</center>
 
 |                  Name(Chinese)                  |                             Name                             |                          Frequency                           |
 | :---------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -141,11 +141,11 @@ Then we compute the number of NaN in each factor, as shown in Figure 4. After dr
 
 ![images](10%20readmeMaterial/NaN.png)
 
-Figure 4. number of NaN values in each factor
+<center>Figure 4. number of NaN values in each factor</center>
 
 #### 2.4 Tackle with extreme values 
 
-We use MAD method to limit feature values to the range of $[median-n\times{MAD},median+n\times{MAD}]$. We also standardize data before training our models.
+We use MAD method to limit feature values to the range of [median - n x MAD,median + n x MAD]​. We also standardize data before training our models.
 
 Since we will roll all data in the following classifier models, it is necessary to calculate median, mean and variance of training data and testing data for each scrolling window, so we encapsulate the cutExtreme function to achieve standard input and output in cutting extreme values.
 
@@ -157,7 +157,7 @@ We calculate the Pearson and Spearman correlation of these factors and Figure 5 
 
 ![images](10%20readmeMaterial/spearman.png)
 
-Figure 5. Pearson and Spearman correlation heat maps of factors
+<center>Figure 5. Pearson and Spearman correlation heat maps of factors</center>
 
 #### 2.6 feature selection
 
@@ -316,7 +316,7 @@ As 1.6 has already explained, we implement an expanding window prediction proced
 
 ![images](10%20readmeMaterial/buySell.png)
 
-Figure 6. the buy and sell time points
+<center>Figure 6. the buy and sell time points</center>
 
 ### PART4 Timing Investment Return and Assessments
 
@@ -324,7 +324,7 @@ Figure 6. the buy and sell time points
 
 We form two position strategies: pure long and long-short. We use the (today's position, next day's prediction) pair to explain how these two strategies work.
 
-Table 2. pure long strategy
+<center>Table 2. pure long strategy</center>
 
 | (today's position, next day's prediction) pair | movement |
 | ---------------------------------------------- | -------- |
@@ -333,7 +333,7 @@ Table 2. pure long strategy
 | (1, 0)                                         | sell     |
 | (1, 1)                                         | hold     |
 
-Table 3. long-short strategy
+<center>Table 3. long-short strategy</center>
 
 | (today's position, next day's prediction) pair | movement |
 | ---------------------------------------------- | -------- |
@@ -348,7 +348,7 @@ Implementing these two rules, we calculate the return of the strategies and Figu
 
 ![images](10%20readmeMaterial/performance.png)
 
-Figure 7. Strategies' performances and win time
+<center>Figure 7. Strategies' performances and win time</center>
 
 #### Reference
 

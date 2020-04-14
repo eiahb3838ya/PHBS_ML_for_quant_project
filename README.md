@@ -52,7 +52,7 @@ We implement a feature selection to choose 18 features (factors) out of 52 daily
 
 ![images](10%20readmeMaterial/workFlow.PNG)
 
-Figure 2. Work flow of the project
+<center>Figure 2. Work flow of the project</center>
 
 #### 1.6 Rolling Prediction
 

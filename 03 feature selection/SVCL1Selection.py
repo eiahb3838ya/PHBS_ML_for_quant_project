@@ -74,3 +74,4 @@ if __name__ == '__main__':
     X_train,y_train,X_test, y_test = split_train_test_data(rawXs,rawYs,test_size = 0.3)
     X_train, X_test = SVCL1Selection(X_train, y_train,X_test, y_test,method = True, returnCoef = False)
     
+  

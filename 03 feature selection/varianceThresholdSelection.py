@@ -11,7 +11,7 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-def varianceThresholdSelection(X_train, y_train, X_test,y_test, verbal = None,returnCoef = False):
+def varianceThresholdSelection(X_train, y_train, X_test, y_test, verbal = None,returnCoef = False):
     
     '''
     choose the model = 'VarianceThreshold'

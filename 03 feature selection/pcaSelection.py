@@ -76,7 +76,8 @@ if __name__ == '__main__':
         X_train = X.iloc[:num_train,:]
         X_test = X.iloc[num_train:,:]
         y_train = y[:num_train]
-        y_test = y[num_train:]
+        y_test = y[num_train:] 
         return X_train,y_train,X_test, y_test
+    
     X_train,y_train,X_test, y_test = split_train_test_data(rawXs,rawYs,test_size = 0.3)
     X_train, X_test = pcaSelection(X_train,y_train,X_test, y_test, verbal = True, returnCoef = False)

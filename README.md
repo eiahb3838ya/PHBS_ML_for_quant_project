@@ -76,7 +76,7 @@ We will also use CSCV framework to evaluate the probability of overfitting in ba
 
 The goal of our timing model is to forecast Wind All A Index, using 60 factors including interest rate factors, commodity factors and other factors. And the time range of our data is from April 1, 2008 to March 6, 2020. All raw data are collected in the [file](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/00%20data/rawMacroFactor). 
 
-Except for the factors chosen in our reference research report, we add two kinds of features. One of them is Shanghai Composite Index, which is a good indicator that reflects Chinese stock market expectations. The other is stock indexes of foreign stock market, including Nikkei Index and three American stock indexes, because we believe that the volatility of foreign stock prices can have a significant influence on Chinese market. All new factors are collected in the [file](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/00%20data/AddNewData). We list a few of these factors in Table 1.
+Except for the factors chosen in our reference research report, we add two kinds of features. One of them is Shanghai Composite Index, which is a good indicator that reflects Chinese stock market expectations. The other are stock indexes of foreign stock market, including Nikkei Index and three American stock indexes, because we believe that the volatility of foreign stock prices can have a significant influence on Chinese market. All new factors are collected in the [file](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/00%20data/AddNewData). We list a few of these factors in Table 1.
 
 <p align="center">Table 1. Factors we use (part)</p>
 

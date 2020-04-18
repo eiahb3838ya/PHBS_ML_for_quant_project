@@ -365,7 +365,9 @@ Implementing these two rules, we calculate the return of the strategies and Figu
 
 ### Part5 Model Valuation
 
+![images](10%20readmeMaterial/f1.png)
 
+<p align="center">Figure 9. Precision and f1-score</p>
 
 ### Reference
 

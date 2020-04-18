@@ -46,7 +46,7 @@ Here is a sample of the dataset.
 
 <p align="center">Figure 1. Sample data</p>
 
-#### 1.5 Work flow
+#### 1.5 Work Flow
 
 We implement a feature selection to choose 18 features (factors) out of 52 daily factor data and 8 alpha factors from WorldQuant101 to establish classifiers using logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. We build our models and renew them, using them to predict the price up or down of the next trading days. Next we calculate the long-short net asset value (NAV) of WindA based on the position we hold according to the predictions. After that we do some tests and assessments on the strategy. The whole work flow is shown in Figure 2.
 

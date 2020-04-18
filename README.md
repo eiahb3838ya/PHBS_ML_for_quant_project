@@ -358,11 +358,29 @@ Implementing these two rules, we calculate the return of the strategies and Figu
 
 <p align="center">Figure 8. Sharp ratio</p>
 
+![images](10%20readmeMaterial/maxDrawback.png)
+
+<p align="center">Figure 9. maxDrawback</p>
+
 ### Part5 Model Valuation
 
 ![images](10%20readmeMaterial/f1.jpg)
 
-<p align="center">Figure 9. Precision and f1-score</p>
+<p align="center">Figure 10. Precision and f1-score</p>
+
+### Part6 Conclusion and Further Improvemrnt
+
+#### 6.1 Conclusion 
+
+In our project, we buid a timing strategy based on the prediction of WindA's performance the next day. And we build 5 feature selection models and 6 classifiers to train models. After trying all combinations of feature selection models and classifers, we find that combination of naiveSelection and XGBoost can show the best strategy performance. 
+
+Also, we compare two strategies, PureLong strategy and LongShort strategy, both of which are better than SimpleHolding strategy.Morever, LongShort strategy has better performance, with 406.83% total compounded yield rate from Feb.25,2005 to Mar.18,2020 and 1.25 daily sharp ratio.
+
+#### 6.2 Further Improvemrnts
+
+1. Correlation between our features is high, more low-correlation features can be added to improve our model.
+
+2. 
 
 ### Reference
 

@@ -358,7 +358,7 @@ Implementing these two rules, we calculate the return of the strategies and Figu
 
 <p align="center">Figure 8. Sharp ratio</p>
 
-![images](10%20readmeMaterial/Max Drawdown.jpg)
+![images](10%20readmeMaterial/MaxDrawdown.jpg)
 
 <p align="center">Figure 9. Max drawdown</p>
 

@@ -354,7 +354,7 @@ Implementing these two rules, we calculate the return of the strategies and Figu
 
 <p align="center">Figure 7. Strategies' performances and win time</p>
 
-![images](10%20readmeMaterial/SharpRatio.jpg)
+![images](10%20readmeMaterial/SharpRatio.png)
 
 <p align="center">Figure 8. Sharp ratio</p>
 

@@ -354,7 +354,11 @@ Implementing these two rules, we calculate the return of the strategies and Figu
 
 <p align="center">Figure 7. Strategies' performances and win time</p>
 
-#### Reference
+### Part5 Model Valuation
+
+
+
+### Reference
 
 Mingming Yu, Min Guan. (2019). Systematic Asset Allocation Series III of Xingye Securities: A Short-Term Market Timing Strategy Based on AdaBoost Machine Learning Algorithms. Xingye Securities.
 

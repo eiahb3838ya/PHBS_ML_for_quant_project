@@ -163,7 +163,7 @@ We calculate the Pearson and Spearman correlation of these factors and Figure 5 
 
 <p align="center">Figure 5. Pearson and Spearman correlation heat maps of factors</p>
 
-#### 2.6 feature selection
+#### 2.6 Feature Selection
 
 We can see that correlation among these factors are relatively high, which is easy to understand. In order to solve this problem, we adopt some particular feature selection functions to deal with this issue as can be seen in the following part.
 

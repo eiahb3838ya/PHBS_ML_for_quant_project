@@ -32,14 +32,14 @@ sys.path.append(os.path.join(ROOT, '04 build classifier model'))
 from MyDecisionTreeClassifier import MyDecisionTreeClassifier
 from MyClassifier import *
 from MySVMClassifier import MySVMClassifier
-# from MyXGBoostClassifier import MyXGBoostClassifier
+from MyXGBoostClassifier import MyXGBoostClassifier
 # <<<<<<< HEAD
 # from MyDeepLearningClassifier import MyDeepLearningClassifier
 # =======
 from MyKNNClassifier import MyKNNClassifier
 from sklearn.svm import SVC
 # >>>>>>> cba755d863f0fcf468ecabcb8370f5eb74e79c83
-
+import ffn
 
 #%%
 class RollingSignalGenerator:
@@ -135,6 +135,20 @@ class RollingSignalGenerator:
             return(outputPrediction, modelRecord)
         else:
             return(outputPrediction)
+        
+def calTomorrowUp(index):
+    '''index can be : hs300,zz500,zz800'''
+    Df = pd.read_csv(DATA_PATH+'/testIndex/{}.csv'.format(index))
+    Df.columns = ['date','close']
+    Df = Df.drop([0,1,2])
+    Df = Df.set_index('date')
+    Df = Df.astype(float)
+    Df.index = pd.DatetimeIndex(Df.index)
+    Return = Df['close'].pct_change().rename('Return')
+    TomorrowUp = (Return.shift(-1)>0).rename('TomorrowUp').astype(int)
+    TomorrowUp = TomorrowUp.loc['2008-04':]
+    TomorrowUp = TomorrowUp.iloc[:-31]
+    return TomorrowUp,Df
     
 #%%
 if __name__ =='__main__':
@@ -154,17 +168,25 @@ if __name__ =='__main__':
     getFeatures = FeatureEngineering(DATA_PATH)
     features = getFeatures.combine_feature()
     rawDf = pd.merge(features,rawDf,on = 'date',how = 'right')
-    # rawDf = rawDf.iloc[58:,:]
-    rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1]
+    rawXs = rawDf.iloc[:, :-4]
+    # rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1]
     
+#%%Test Index 
+
+    
+    
+#%%
     MIN_TRAIN_DAYS = 1600
     TRAIN_MODE = 'extention'
-    
     recordModels = True
-
-    selector = treeSelection
+    
+    index = 'hs300'
+    selector = naiveSelection
     # myPredictModel = MyDeepLearningClassifier
     myPredictModel =  MyNeuralNetworkClassifier
+    
+#%%
+    rawYs,_ = calTomorrowUp(index)
     
 #%%
     sig = RollingSignalGenerator(rawXs, rawYs)
@@ -175,8 +197,8 @@ if __name__ =='__main__':
     y_true = rawYs[outputPrediction.index]
     print(metrics.precision_score(y_true, outputPrediction))
     
-    
-    outputPredictionFileName = str(selector.__name__) + '_' +str(myPredictModel.__name__)
+    outputPredictionFileName = index + '_' + str(selector.__name__) + '_' +str(myPredictModel.__name__)
+    ROOT = '../'
     path = os.path.join(ROOT, '05 rolling prediction/outputResults/{}'.format(outputPredictionFileName))
     if not os.path.isdir(path):
         os.makedirs(path)
@@ -184,9 +206,10 @@ if __name__ =='__main__':
     outputPrediction.to_pickle(os.path.join(path,'{}_Value.pkl'.format(outputPredictionFileName)))
     np.save(os.path.join(path,'{}_models'.format(outputPredictionFileName)), models)
 #%%
-    from load_data import load_data, plot_rts
-    windADf = load_data(DATA_PATH + '/881001.csv')
-    indexClose = windADf.loc[:, ['date', 'close']].set_index('date')
+    # from load_data import load_data, plot_rts
+    # windADf = load_data(DATA_PATH + '/881001.csv')
+    # indexClose = windADf.loc[:, ['date', 'close']].set_index('date')
+    _,indexClose = calTomorrowUp(index)
     indexClose = indexClose[outputPrediction.index[0]:]
     
     # plt.figure(figsize = (20, 8))
@@ -232,6 +255,25 @@ if __name__ =='__main__':
     Result.to_csv(path+'/{}_NAV.csv'.format(outputPredictionFileName))
     # Result.plot()
     
+#%% calcuate Sharp ratio and MDD
+    prices  = Result.iloc[:,[1,3,5]]
+    # ax1 = prices.rebase().plot()
+    stats = prices.calc_stats()
+    stats.plot()
+    stats.display()
+    
+    plt.figure(figsize = (20, 6))
+    ax = stats.prices.to_drawdown_series().plot(figsize = (20,6))
+    plt.title('max draw down of strategy')
+    plt.show()
+    plt.savefig(os.path.join(path,'{}.png'.format(outputPredictionFileName+'_MDD')))
+    
+    evaluationResults = pd.DataFrame()
+    evaluationResults['windACumprod'] = stats[0].stats
+    evaluationResults['LongCumprod'] = stats[1].stats
+    evaluationResults['LongShortCumprod'] = stats[2].stats
+    evaluationResults.to_csv(path+'/{}_EvaluationResults.csv'.format(outputPredictionFileName))
+    
 #%% plot buy and sell time
     plt.figure(figsize = (20, 6))
     # plt.style.use('dark_background') 
@@ -262,9 +304,7 @@ if __name__ =='__main__':
     plt.savefig(os.path.join(path,'{}.png'.format(outputPredictionFileName+'_performance')))
     plt.show()
     
-    
 #%% precision recall f1 
-
     ROOT = '../'
     outputPredictionFileName = str(selector.__name__) + '_' +str(myPredictModel.__name__)
     path = os.path.join(ROOT, '05 rolling prediction/outputResults/{}'.format(outputPredictionFileName))
@@ -286,18 +326,10 @@ if __name__ =='__main__':
     plt.plot(dateList, precision, label = 'precision')
     plt.plot(dateList, f1,label = 'f1 score')
     plt.xticks(rotation = 90)
+    plt.title('precision and f1-score of models')
     plt.legend()
     plt.show()
     
-    np.mean(precision)
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+    print(np.mean(precision))
+    print(np.mean(f1))
             

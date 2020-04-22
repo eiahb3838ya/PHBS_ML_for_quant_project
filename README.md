@@ -379,8 +379,9 @@ Also, we compare two strategies, PureLong strategy and LongShort strategy, both 
 #### 6.2 Further Improvemrnts
 
 1. Correlation between our features is high, more low-correlation features can be added to improve our model.
-
-2. 
+2. Tune the hyperparameters of the model and find better hyperparameters for each model.
+3. Use CSCV framework to evaluate the probability of overfitting problem.
+4. If this timing strategy framework is flexible enough, we will upload it to the python community to become a package which may benefit for someone.
 
 ### Reference
 

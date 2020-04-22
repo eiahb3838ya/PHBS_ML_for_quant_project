@@ -1,6 +1,8 @@
 # Short-term market timing strategy based on boosting ML algos
 This is the course project of [Machine Learning for Finance (FN 570)](https://github.com/PHBS/MLF) 2019-20 Module 3 (Spring 2020) in [PHBS](https://github.com/PHBS). 
 
+Thanks to the effort from each team member. Our contributions make this repository meaningful.
+
 # THE LINK of IPYNB FOR PRESENTATION
 
  https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/09%20for%20Pre%20Part
@@ -315,7 +317,7 @@ class MyDeepLearningClassifier:
 
 #### 3.2 Rolling Prediction
 
-As 1.6 has already explained, we implement an expanding window prediction procedure to predict future price trends of WindA. Based on the predictions, we make our decisions about when to buy/long and when to sell/short. Figure 6 shows the buy and sell points during the whole process ([naiveSelection+XGBoost](), the below figures all using this pair).
+As 1.6 has already explained, we implement an expanding window prediction procedure to predict future price trends of WindA. Based on the predictions, we make our decisions about when to buy/long and when to sell/short. Figure 6 shows the buy and sell points during the whole process ([naiveSelection+XGBoost](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/05%20rolling%20prediction/outputResults/naiveSelection_MyXGBoostClassifier), the below figures all using this pair).
 
 ![images](10%20readmeMaterial/buySell.png)
 

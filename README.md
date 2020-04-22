@@ -1,8 +1,9 @@
-# THE LINK of IPYNB FOR PRESENTATION
- https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/09%20for%20Pre%20Part
+# Short-term market timing strategy based on boosting ML algos
+This is the course project of [Machine Learning for Finance (FN 570)](https://github.com/PHBS/MLF) 2019-20 Module 3 (Spring 2020) in [PHBS](https://github.com/PHBS). 
 
-# PHBS_ML_for_quant_project
-This is the repository for ML final project.
+# THE LINK of IPYNB FOR PRESENTATION
+
+ https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/09%20for%20Pre%20Part
 
 ### 0.Team Member
 
@@ -48,7 +49,7 @@ Here is a sample of the dataset.
 
 #### 1.5 Work Flow
 
-We implement a feature selection to choose 18 features (factors) out of 52 daily factor data and 8 alpha factors from WorldQuant101 to establish classifiers using logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. We build our models and renew them, using them to predict the price up or down of the next trading days. Next we calculate the long-short net asset value (NAV) of WindA based on the position we hold according to the predictions. After that we do some tests and assessments on the strategy. The whole work flow is shown in Figure 2.
+We implement a [feature selection](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/03%20feature%20selection) to choose 18 features (factors) out of 52 daily factor data and 8 alpha factors from WorldQuant101 to establish [classifiers](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/04%20build%20classifier%20model) using logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. We build our models and renew them, using them to predict the price up or down of the next trading days. Next we calculate the long-short net asset value (NAV) of WindA based on the position we hold according to the predictions. After that we do some tests and assessments on the strategy. The whole work flow is shown in Figure 2.
 
 ![images](10%20readmeMaterial/workFlow.PNG)
 
@@ -68,15 +69,13 @@ As the financial data are time series data, we implement an **expanding window**
 
 As we can see from Figure 3, every 20 consecutive trading days the training dataset will expand 20 more days' data.
 
-We will also use CSCV framework to evaluate the probability of overfitting in backtesting level.
-
 ### PART2 Data Preprocessing and Feature Selection
 
 #### 2.1 Data Collection
 
-The goal of our timing model is to forecast Wind All A Index, using 60 factors including interest rate factors, commodity factors and other factors. And the time range of our data is from April 1, 2008 to March 6, 2020. All raw data are collected in the [file](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/00%20data/rawMacroFactor). 
+The goal of our timing model is to forecast Wind All A Index, using 60 factors including interest rate factors, commodity factors and other factors. And the time range of our data is from April 1, 2008 to March 6, 2020. All raw data are collected in the [rawMacroFactor](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/00%20data/rawMacroFactor). 
 
-Except for the factors chosen in our reference research report, we add two kinds of features. One of them is Shanghai Composite Index, which is a good indicator that reflects Chinese stock market expectations. The other are stock indexes of foreign stock market, including Nikkei Index and three American stock indexes, because we believe that the volatility of foreign stock prices can have a significant influence on Chinese market. All new factors are collected in the [file](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/00%20data/AddNewData). We list a few of these factors in Table 1.
+Except for the factors chosen in our reference research report, we add two kinds of features. One of them is Shanghai Composite Index, which is a good indicator that reflects Chinese stock market expectations. The other are stock indexes of foreign stock market, including Nikkei Index and three American stock indexes, because we believe that the volatility of foreign stock prices can have a significant influence on Chinese market. All new factors are collected in the [AddNewData](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/00%20data/AddNewData). We list a few of these factors in Table 1.
 
 <p align="center">Table 1. Factors we use (part)</p>
 
@@ -140,7 +139,7 @@ We compute the daily return of WindA index and label each day based on the retur
 
 #### 2.3 Tackle with NaN
 
-Then we compute the number of NaN in each factor, as shown in Figure 4. After we [drop NaN](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/tackleWithNaN%26Extreme.ipynb) including non-trading day data and other missing data, we get a dataframe including 2,903 observations. Cleaned factors are in the [file](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/cleanedFactor.csv).
+Then we compute the number of NaN in each factor, as shown in Figure 4. After we [drop NaN](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/tackleWithNaN%26Extreme.ipynb) including non-trading day data and other missing data, we get a dataframe including 2,903 observations. Cleaned factors are in the [cleanedFactor](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/cleanedFactor.csv).
 All data are [concated](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/concatAllDf.ipynb). 
 
 ![images](10%20readmeMaterial/NaN.png)
@@ -167,16 +166,16 @@ We calculate the Pearson and Spearman correlation of these factors and Figure 5 
 
 We can see that correlation among these factors are relatively high, which is easy to understand. In order to solve this problem, we adopt some particular feature selection functions to deal with this issue as can be seen in the following part.
 
-Here we build five models to select features:
-* naiveSelection.py
-* pcaSelection.py
-* SVCL1Selection.py
-* treeSelection.py
-* varianceThresholdSelection.py
+Here we build five models to [select features](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/03%20feature%20selection):
+* [naiveSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/naiveSelection.py)
+* [pcaSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/pcaSelection.py)
+* [SVCL1Selection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/SVCL1Selection.py)
+* [treeSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/treeSelection.py)
+* [varianceThresholdSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/varianceThresholdSelection.py)
 
-To avoid high correlation among features as much as possible, we can choose LASSO in SVC model. To find the most import features, we can choose pca methods. Also, XGBoost includes feature selection itself. Morever, to make it easy to call feature selection model, we encapsulate them as standard functions.
+To avoid high correlation among features as much as possible, we can choose [LASSO in SVC model](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/SVCL1Selection.py). To find the most import features, we can choose pca methods. Also, XGBoost includes feature selection itself. Morever, to make it easy to call feature selection model, we encapsulate them as standard functions.
 
-Below is a sample feature selection function (pcaSelection.py)
+Below is a sample feature selection function ([pcaSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/pcaSelection.py))
 
 ```python
 import pandas as pd
@@ -222,11 +221,11 @@ def pcaSelection(X_train, y_train, X_test, y_test, verbal = None, returnCoef = F
 
 #### PART3 Building Classifiers
 
-As we have already converted the problem into a classification prediction problem, we need to build classifiers based on machine learning algorithms to implement on the selected features.
+As we have already converted the problem into a classification prediction problem, we need to build [classifiers](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/04%20build%20classifier%20model) based on machine learning algorithms to implement on the selected features.
 
 #### 3.1 Machine Learning Algorithms
 
-We implement logistic regression, naive Bayes, KNN, perceptron, decision tree, SVM, XGBoost and a Sequential neural network model in Keras to predict the rise or fall of Wind All A Index the next day. Below are some sample codes of implementing these algorithms as classifiers.
+We implement [logistic regression](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/04%20build%20classifier%20model/MyClassifier.py), [naive Bayes](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/04%20build%20classifier%20model/MyClassifier.py), [KNN](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/04%20build%20classifier%20model/MyKNNClassifier.py), [perceptron](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/04%20build%20classifier%20model/MyClassifier.py), [decision tree](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/04%20build%20classifier%20model/MyDecisionTreeClassifier.py), [SVM](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/04%20build%20classifier%20model/MySVMClassifier.py), [XGBoost](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/04%20build%20classifier%20model/MyXGBoostClassifier.py) and [a Sequential neural network model in Keras](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/04%20build%20classifier%20model/MyDeepLearningClassifier.py) to predict the rise or fall of Wind All A Index the next day. Below are some sample codes of implementing these algorithms as classifiers.
 
 ```python
 class MyLogisticRegClassifier:
@@ -316,7 +315,7 @@ class MyDeepLearningClassifier:
 
 #### 3.2 Rolling Prediction
 
-As 1.6 has already explained, we implement an expanding window prediction procedure to predict future price trends of WindA. Based on the predictions, we make our decisions about when to buy/long and when to sell/short. Figure 6 shows the buy and sell points during the whole process (naiveSelection+XGBoost, the below figures all using this pair).
+As 1.6 has already explained, we implement an expanding window prediction procedure to predict future price trends of WindA. Based on the predictions, we make our decisions about when to buy/long and when to sell/short. Figure 6 shows the buy and sell points during the whole process ([naiveSelection+XGBoost](), the below figures all using this pair).
 
 ![images](10%20readmeMaterial/buySell.png)
 
@@ -380,7 +379,7 @@ Also, we compare two strategies, PureLong strategy and LongShort strategy, both 
 
 1. Correlation between our features is high, more low-correlation features can be added to improve our model.
 2. Tune the hyperparameters of the model and find better hyperparameters for each model.
-3. Use CSCV framework to evaluate the probability of overfitting problem.
+3. Implement CSCV framework to evaluate the probability of overfitting problem.
 4. If this timing strategy framework is flexible enough, we will upload it to the python community to become a package which may benefit for someone.
 
 ### Reference

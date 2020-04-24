@@ -351,7 +351,7 @@ attribute after fitting a XGBoost Classifier. By executing the code, we can see 
 
 (Thanks to professor.choi's reminder.)
 
-![images](05%20rolling prediction/The feature importance.png)
+![images](05%20rolling prediction/TheFeatureImportance.png)
 
 <p align="center">Figure 6. The feature importance from XGBoost model</p>
 

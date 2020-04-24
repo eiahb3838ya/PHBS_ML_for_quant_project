@@ -118,3 +118,6 @@ echo .DS_Store >> ~/.gitignore
 #更新项目
 git add --all
 git commit -m '.DS_Store banished!'
+
+.DS_Store
+.DS_Store

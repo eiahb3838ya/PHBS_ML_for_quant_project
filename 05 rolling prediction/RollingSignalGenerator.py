@@ -174,7 +174,7 @@ if __name__ =='__main__':
     TRAIN_MODE = 'extention'
     recordModels = True
     
-    index = 'windA'
+    index = 'zz800'
     selector = naiveSelection
     # myPredictModel = MyDecisionTreeClassifier
     myPredictModel =  MyXGBoostClassifier
@@ -321,6 +321,7 @@ if __name__ =='__main__':
     plt.xticks(rotation = 90)
     plt.title('precision and f1-score of models')
     plt.legend()
+    plt.savefig(os.path.join(path,'{}.png'.format(outputPredictionFileName+'_MLscores')))
     plt.show()
     
     print(np.mean(precision))

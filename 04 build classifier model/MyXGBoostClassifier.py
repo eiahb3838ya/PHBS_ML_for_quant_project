@@ -7,6 +7,8 @@ Created on Wed Apr  8 18:06:19 2020
 """
 from xgboost import XGBClassifier
 from parametersRepo import *
+import matplotlib.pyplot as plt
+from matplotlib import pyplot
 
 class MyXGBoostClassifier:
     def __init__(self):
@@ -26,6 +28,18 @@ class MyXGBoostClassifier:
     def fit(self, X, y):
         # do what ever plot or things you like 
         # just like your code
+        self.model.fit(X,y)
+        print('The feature importance is :')
+        print(self.model.feature_importances_)
+        
+        plt.figure(figsize = (20, 6))
+        pyplot.bar(range(len(self.model.feature_importances_)), self.model.feature_importances_)
+        pyplot.show()
+        plt.title('The feature importance')
+        plt.savefig('The feature importance')
+        plt.show()
+        # print('The total score of feature importance is:')
+        # print(sum(self.model.feature_importances_))
         return(self.model.fit(X, y))
         
     def predict(self, X):

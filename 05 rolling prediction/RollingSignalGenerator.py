@@ -28,7 +28,6 @@ from varianceThresholdSelection import varianceThresholdSelection
 from pcaSelection import pcaSelection
 
 sys.path.append(os.path.join(ROOT, '04 build classifier model'))
-
 from MyDecisionTreeClassifier import MyDecisionTreeClassifier
 from MyClassifier import *
 from MySVMClassifier import MySVMClassifier
@@ -107,7 +106,6 @@ class RollingSignalGenerator:
             #  concat outputs
             outputPrediction = pd.concat([outputPrediction, y_predictSeries])
             
-            
             # tqdm.write("precision:{}".format(metrics.precision_score(y_true, y_pred)))
             # tqdm.write("recall:{}".format(metrics.recall_score(y_true, y_pred)))
             # tqdm.write("f1:{}\n".format(metrics.f1_score(y_true, y_pred)))  
@@ -170,25 +168,22 @@ if __name__ =='__main__':
     rawDf = pd.merge(features,rawDf,on = 'date',how = 'right')
     rawXs = rawDf.iloc[:, :-4]
     # rawXs, rawYs = rawDf.iloc[:, :-4], rawDf.iloc[:, -1]
-    
-#%%Test Index 
-
-    
-    
+       
 #%%
     MIN_TRAIN_DAYS = 1600
     TRAIN_MODE = 'extention'
     recordModels = True
     
-    index = 'hs300'
+    index = 'windA'
     selector = naiveSelection
+    # myPredictModel = MyDecisionTreeClassifier
+    myPredictModel =  MyXGBoostClassifier
     # myPredictModel = MyDeepLearningClassifier
-    myPredictModel =  MyNeuralNetworkClassifier
     
-#%%
+#%% get up or down result of index in the next trade day
     rawYs,_ = calTomorrowUp(index)
     
-#%%
+#%% get signal
     sig = RollingSignalGenerator(rawXs, rawYs)
     outputPrediction, models = sig.generateSignal(predictModel = myPredictModel, featureSelectionFunction = selector)
     
@@ -205,10 +200,7 @@ if __name__ =='__main__':
     
     outputPrediction.to_pickle(os.path.join(path,'{}_Value.pkl'.format(outputPredictionFileName)))
     np.save(os.path.join(path,'{}_models'.format(outputPredictionFileName)), models)
-#%%
-    # from load_data import load_data, plot_rts
-    # windADf = load_data(DATA_PATH + '/881001.csv')
-    # indexClose = windADf.loc[:, ['date', 'close']].set_index('date')
+#%% get close price of index
     _,indexClose = calTomorrowUp(index)
     indexClose = indexClose[outputPrediction.index[0]:]
     
@@ -305,9 +297,10 @@ if __name__ =='__main__':
     plt.show()
     
 #%% precision recall f1 
-    ROOT = '../'
-    outputPredictionFileName = str(selector.__name__) + '_' +str(myPredictModel.__name__)
-    path = os.path.join(ROOT, '05 rolling prediction/outputResults/{}'.format(outputPredictionFileName))
+    # ROOT = '../'
+    # outputPredictionFileName = index + '_' + str(selector.__name__) + '_' +str(myPredictModel.__name__)
+    # path = os.path.join(ROOT, '05 rolling prediction/outputResults/{}'.format(outputPredictionFileName))
+    
     models = np.load(os.path.join(path,'{}_models.npy'.format(outputPredictionFileName)), allow_pickle = True).item()
     
     precision = []

@@ -197,6 +197,7 @@ def pcaSelection(X_train, y_train, X_test, y_test, verbal = None, returnCoef = F
     return the selected X_train, X_test
     print info of the selecter
     return the coef or the score of each feature if asked
+    
     '''
     #transform to standardscaler
     features = X_train.columns.tolist()
@@ -206,14 +207,23 @@ def pcaSelection(X_train, y_train, X_test, y_test, verbal = None, returnCoef = F
     X_train.columns = features
     X_test.columns = features
     
-    pca = PCA(n_components = 40)
+    pca = PCA(n_components = 8)
     X_train = pca.fit_transform(X_train)
+    print ('The explained variance ratio is:')
+    print(pca.explained_variance_ratio_)
+    print('The total explained variance ratio is ')
+    print(sum(pca.explained_variance_ratio_))
+    print ('The explained variance is:')
+    print(pca.explained_variance_)
     X_test = pca.transform(X_test)
     
+    
     coef = pd.Series()
+    # featureName = None
     
     if verbal == True:
-        print('The total feature number is '+ str(X_train.shape[1]))
+       print('The total feature number is '+ str(X_train.shape[1]))
+       # print('The selected feature name is '+ str(featureName))
        
     if not returnCoef:
         return(X_train, X_test)
@@ -249,6 +259,8 @@ class MyLogisticRegClassifier:
 ```python
 from xgboost import XGBClassifier
 from parametersRepo import *
+import matplotlib.pyplot as plt
+from matplotlib import pyplot
 
 class MyXGBoostClassifier:
     def __init__(self):
@@ -268,6 +280,18 @@ class MyXGBoostClassifier:
     def fit(self, X, y):
         # do what ever plot or things you like 
         # just like your code
+        self.model.fit(X,y)
+        print('The feature importance is :')
+        print(self.model.feature_importances_)
+        
+        plt.figure(figsize = (20, 6))
+        pyplot.bar(range(len(self.model.feature_importances_)),     self.model.feature_importances_)
+        pyplot.show()
+        plt.title('The feature importance')
+        plt.savefig('The feature importance')
+        plt.show()
+        # print('The total score of feature importance is:')
+        # print(sum(self.model.feature_importances_))
         return(self.model.fit(X, y))
         
     def predict(self, X):
@@ -315,13 +339,29 @@ class MyDeepLearningClassifier:
        	 return(pd.Series(self.model.predict_classes(X).flatten()).astype(bool))
 ```
 
-#### 3.2 Rolling Prediction
+#### 3.2 Importance Features
 
-As 1.6 has already explained, we implement an expanding window prediction procedure to predict future price trends of WindA. Based on the predictions, we make our decisions about when to buy/long and when to sell/short. Figure 6 shows the buy and sell points during the whole process ([naiveSelection+XGBoost](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/05%20rolling%20prediction/outputResults/naiveSelection_MyXGBoostClassifier), the below figures all using this pair).
+It would be nice to show the importance of features used. Conveniently, the XGBoost implementation in scikit-learn already collects the feature importance values for us so we can access them via the
+
+```
+ model.feature_importance_
+```
+
+attribute after fitting a XGBoost Classifier. By executing the code, we can see the importance of the features. Below is the feature importance from one XGBoost model in rolling prediction.
+
+(Thanks to professor.choi's reminder.)
+
+![images](05%20rolling prediction/The feature importance.png)
+
+<p align="center">Figure 6. The feature importance from XGBoost model</p>
+
+#### 3.3 Rolling Prediction
+
+As 1.6 has already explained, we implement an expanding window prediction procedure to predict future price trends of WindA. Based on the predictions, we make our decisions about when to buy/long and when to sell/short. Figure 7 shows the buy and sell points during the whole process ([naiveSelection+XGBoost](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/05%20rolling%20prediction/outputResults/naiveSelection_MyXGBoostClassifier), the below figures all using this pair).
 
 ![images](10%20readmeMaterial/buySell.png)
 
-<p align="center">Figure 6. the buy and sell time points</p>
+<p align="center">Figure 7. the buy and sell time points</p>
 
 ### PART4 Timing Investment Return and Assessments
 
@@ -347,27 +387,27 @@ We form two position strategies: pure long and long-short. We use the (today's p
 | (1, 0)                                         | sell     |
 | (1, 1), (-1, 0)                                | hold     |
 
-Implementing these two rules, we calculate the return of the strategies and Figure 7 shows their performances.
+Implementing these two rules, we calculate the return of the strategies and Figure 8 shows their performances.
 
 #### 4.2 Assessments
 
 ![images](10%20readmeMaterial/performance.png)
 
-<p align="center">Figure 7. Strategies' performances and win time</p>
+<p align="center">Figure 8. Strategies' performances and win time</p>
 
 ![images](10%20readmeMaterial/SharpRatio.png)
 
-<p align="center">Figure 8. Sharp ratio</p>
+<p align="center">Figure 9. Sharp ratio</p>
 
 ![images](10%20readmeMaterial/maxDrawback.png)
 
-<p align="center">Figure 9. maxDrawback</p>
+<p align="center">Figure 10. maxDrawback</p>
 
 ### Part5 Model Valuation
 
 ![images](10%20readmeMaterial/f1.jpg)
 
-<p align="center">Figure 10. Precision and f1-score</p>
+<p align="center">Figure 11. Precision and f1-score</p>
 
 ### Part6 Conclusion and Further Improvement
 
@@ -388,7 +428,7 @@ Table 5. Performances of each strategy combination
 
 Also, we compare two strategies, pure long strategy and long-short strategy, both of which are better than simple holding strategy. Moreover, long-short strategy has better performance, with 406.83% total compounded yield rate from February 25, 2005 to March 18, 2020 and 1.25 daily Sharpe ratio.
 
-#### 6.2 Further Improvements
+#### 6.2 Further Improvemrnts
 
 1. Correlation between our features is high, more low-correlation features can be added to improve our model.
 2. Tune the hyperparameters of the model and find better hyperparameters for each model.

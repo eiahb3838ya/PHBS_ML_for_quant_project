@@ -221,6 +221,12 @@ def pcaSelection(X_train, y_train, X_test, y_test, verbal = None, returnCoef = F
         return(X_train, X_test, coef)
 ```
 
+| number of pca components   | total explained variance |
+|  6  |  65% |
+|  8  |  74% |
+|  10  |  79% |
+|  12  |  82% |
+
 #### PART3 Building Classifiers
 
 As we have already converted the problem into a classification prediction problem, we need to build [classifiers](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/04%20build%20classifier%20model) based on machine learning algorithms to implement on the selected features.

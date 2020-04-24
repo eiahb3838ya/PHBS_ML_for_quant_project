@@ -369,15 +369,26 @@ Implementing these two rules, we calculate the return of the strategies and Figu
 
 <p align="center">Figure 10. Precision and f1-score</p>
 
-### Part6 Conclusion and Further Improvemrnt
+### Part6 Conclusion and Further Improvement
 
 #### 6.1 Conclusion 
 
-In our project, we buid a timing strategy based on the prediction of WindA's performance the next day. And we build 5 feature selection models and 6 classifiers to train models. After trying all combinations of feature selection models and classifers, we find that combination of naiveSelection and XGBoost can show the best strategy performance. 
+In our project, we build a timing strategy based on the prediction of WindA's performance the next day. And we build 5 feature selection models and 6 classifiers to train models. After trying all combinations of feature selection models and classifiers, we find that combination of naive Bayes and XGBoost can show the best strategy performance. 
 
-Also, we compare two strategies, PureLong strategy and LongShort strategy, both of which are better than SimpleHolding strategy.Morever, LongShort strategy has better performance, with 406.83% total compounded yield rate from Feb.25,2005 to Mar.18,2020 and 1.25 daily sharp ratio.
+Table 5. Performances of each strategy combination
 
-#### 6.2 Further Improvemrnts
+| strategy combination | naive Bayes+XGBoost                                          | PCA+KNN                                                      |
+| -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Sharpe ratio         | 1.25                                                         |                                                              |
+| max draw down        | -42.06%                                                      |                                                              |
+| precision            |                                                              |                                                              |
+| F1-score             |                                                              |                                                              |
+| parameters           |                                                              |                                                              |
+| return figure        | ![images](05%20rolling prediction/outputResults/naiveSelection_MyXGBoostClassifier/naiveSelection_MyXGBoostClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/pcaSelection_MyKNNClassifier/pcaSelection_MyKNNClassifier_performance.png) |
+
+Also, we compare two strategies, pure long strategy and long-short strategy, both of which are better than simple holding strategy. Moreover, long-short strategy has better performance, with 406.83% total compounded yield rate from February 25, 2005 to March 18, 2020 and 1.25 daily Sharpe ratio.
+
+#### 6.2 Further Improvements
 
 1. Correlation between our features is high, more low-correlation features can be added to improve our model.
 2. Tune the hyperparameters of the model and find better hyperparameters for each model.

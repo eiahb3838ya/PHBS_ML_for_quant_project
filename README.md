@@ -177,7 +177,14 @@ Here we build five models to [select features](https://github.com/eiahb3838ya/PH
 
 To avoid high correlation among features as much as possible, we can choose [LASSO in SVC model](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/SVCL1Selection.py). To find the most import features, we can choose pca methods. Also, XGBoost includes feature selection itself. Morever, to make it easy to call feature selection model, we encapsulate them as standard functions.
 
-Below is a sample feature selection function ([pcaSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/pcaSelection.py))
+Below is a sample feature selection function ([pcaSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/pcaSelection.py)). As we can see, 12 PCA components can explain 82% of total variance, so we consider that 12 is the proper number of features to work with. 
+
+| Number of PCA components | Total explained variance |
+| ------------------------ | ------------------------ |
+| 6                        | 65%                      |
+| 8                        | 74%                      |
+| 10                       | 79%                      |
+| 12                       | 82%                      |
 
 ```python
 import pandas as pd
@@ -207,7 +214,7 @@ def pcaSelection(X_train, y_train, X_test, y_test, verbal = None, returnCoef = F
     X_train.columns = features
     X_test.columns = features
     
-    pca = PCA(n_components = 8)
+    pca = PCA(n_components = 12)
     X_train = pca.fit_transform(X_train)
     print ('The explained variance ratio is:')
     print(pca.explained_variance_ratio_)
@@ -216,7 +223,6 @@ def pcaSelection(X_train, y_train, X_test, y_test, verbal = None, returnCoef = F
     print ('The explained variance is:')
     print(pca.explained_variance_)
     X_test = pca.transform(X_test)
-    
     
     coef = pd.Series()
     # featureName = None

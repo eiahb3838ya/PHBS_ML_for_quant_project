@@ -179,6 +179,8 @@ To avoid high correlation among features as much as possible, we can choose [LAS
 
 Below is a sample feature selection function ([pcaSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/pcaSelection.py)). As we can see, 12 PCA components can explain 82% of total variance, so we consider that 12 is the proper number of features to work with. 
 
+<p align="center">Table 2. Portion explained by different numbers of components
+
 | Number of PCA components | Total explained variance |
 | ------------------------ | ------------------------ |
 | 6                        | 65%                      |
@@ -361,16 +363,6 @@ attribute after fitting a XGBoost Classifier. By executing the code, we can see 
 
 <p align="center">Figure 6. The feature importance from XGBoost model</p>
 
-Table 4 below shows how much portion explained by different numbers of components.
-
-<p align="center">Table 4. Portion explained by different numbers of components</p>
-
-| #of components    | 3    | 6    | 8    | 10   | 12   |
-| ----------------- | ---- | ---- | ---- | ---- | ---- |
-| portion explained | 48%  | 65%  | 74%  | 79%  | 82%  |
-
-As we can see, when we pick the top 12 components, we can approximately explain 82% of the data and we have tested that increase the number more does not effect much but will significantly increase variance, therefore we implement 12 components in selection.
-
 #### 3.3 Rolling Prediction
 
 As 1.6 has already explained, we implement an expanding window prediction procedure to predict future price trends of WindA. Based on the predictions, we make our decisions about when to buy/long and when to sell/short. Figure 7 shows the buy and sell points during the whole process ([naiveSelection+XGBoost](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/05%20rolling%20prediction/outputResults/naiveSelection_MyXGBoostClassifier), the below figures all using this pair).
@@ -385,7 +377,7 @@ As 1.6 has already explained, we implement an expanding window prediction proced
 
 We form two position strategies: pure long and long-short. We use the (today's position, next day's prediction) pair to explain how these two strategies work.
 
-<p align="center">Table 2. pure long strategy</p>
+<p align="center">Table 3. pure long strategy</p>
 
 | (today's position, next day's prediction) pair | movement |
 | ---------------------------------------------- | -------- |
@@ -394,7 +386,7 @@ We form two position strategies: pure long and long-short. We use the (today's p
 | (1, 0)                                         | sell     |
 | (1, 1)                                         | hold     |
 
-<p align="center">Table 3. long-short strategy</p>
+<p align="center">Table 4. long-short strategy</p>
 
 | (today's position, next day's prediction) pair | movement |
 | ---------------------------------------------- | -------- |
@@ -440,7 +432,7 @@ In our project, we build a timing strategy based on the prediction of WindA's pe
 | precision            | 0.56902                                                      | 0.57159                                                      |
 | F1-score             | 0.58705                                                      | 0.56694                                                      |
 | parameters           | `paraXGBoost = {'model_seed':100,                'n_estimators':100,                'max_depth':3,                'learning_rate':0.1,                'min_child_weight':1}` | `paraKNN = {'n_neighbors':15,            'weights':'uniform'}` |
-| return figure        | ![images](05%20rolling prediction/outputResults/naiveSelection_MyXGBoostClassifier/naiveSelection_MyXGBoostClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/pcaSelection_MyKNNClassifier/pcaSelection_MyKNNClassifier_performance.png) |
+| return figure        | ![images](10%20readmeMaterial/windA_naiveSelection_MyXGBoostClassifier_performance.png) | ![images](10%20readmeMaterial/windA_pcaSelection_MyKNNClassifier_performance.png) |
 
 | strategy combination | tree selection+logistic regression                           | SVM(L1) +naive Bayes                                         |
 | -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -449,7 +441,7 @@ In our project, we build a timing strategy based on the prediction of WindA's pe
 | precision            | 0.55636                                                      | 0.34407                                                      |
 | F1-score             | 0.65394                                                      | 0.24248                                                      |
 | parameters           | no hyperparameters set                                       | no hyperparameters set                                       |
-| return figure        | ![images](05%20rolling prediction/outputResults/windA_treeSelection_MyLogisticRegClassifier/windA_treeSelection_MyLogisticRegClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/windA_SVCL1Selection_MyNaiveBayesClassifier/windA_SVCL1Selection_MyNaiveBayesClassifier_performance.png) |
+| return figure        | ![images](10%20readmeMaterial/windA_treeSelection_MyLogisticRegClassifier_performance.png) | ![images](10%20readmeMaterial/windA_SVCL1Selection_MyNaiveBayesClassifier_performance.png) |
 
 Also, we compare two strategies, pure long strategy and long-short strategy, both of which are better than simple holding strategy. Moreover, long-short strategy has better performance, with 406.83% total compounded yield rate from February 25, 2005 to March 18, 2020 and 1.25 daily Sharpe ratio.
 
@@ -468,7 +460,7 @@ We also implement naive selection + XGBoost on three other main indexes in China
 | precision     | 0.56902                                                      | 0.55178                                                      |
 | F1-score      | 0.58705                                                      | 0.55641                                                      |
 | parameters    | `paraXGBoost = {'model_seed':100,                'n_estimators':100,                'max_depth':3,                'learning_rate':0.1,                'min_child_weight':1}` | `paraXGBoost = {'model_seed':100,                'n_estimators':100,                'max_depth':3,                'learning_rate':0.1,                'min_child_weight':1}` |
-| return figure | ![images](05%20rolling prediction/outputResults/naiveSelection_MyXGBoostClassifier/naiveSelection_MyXGBoostClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/hs300_naiveSelection_MyXGBoostClassifier/hs300_naiveSelection_MyXGBoostClassifier_performance.png) |
+| return figure | ![images](10%20readmeMaterial/windA_naiveSelection_MyXGBoostClassifier_performance.png) | ![images](10%20readmeMaterial/hs300_naiveSelection_MyXGBoostClassifier_performance.png) |
 
 | index         | ZZ500                                                        | ZZ800                                                        |
 | ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -477,7 +469,7 @@ We also implement naive selection + XGBoost on three other main indexes in China
 | precision     | 0.55212                                                      | 0.54750                                                      |
 | F1-score      | 0.58988                                                      | 0.54074                                                      |
 | parameters    | `paraXGBoost = {'model_seed':100,                'n_estimators':100,                'max_depth':3,                'learning_rate':0.1,                'min_child_weight':1}` | `paraXGBoost = {'model_seed':100,                'n_estimators':100,                'max_depth':3,                'learning_rate':0.1,                'min_child_weight':1}` |
-| return figure | ![images](05%20rolling prediction/outputResults/zz500_naiveSelection_MyXGBoostClassifier/zz500_naiveSelection_MyXGBoostClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/zz800_naiveSelection_MyXGBoostClassifier/zz800_naiveSelection_MyXGBoostClassifier_performance.png) |
+| return figure | ![images](10%20readmeMaterial/zz500_naiveSelection_MyXGBoostClassifier_performance.png) | ![images](10%20readmeMaterial/zz800_naiveSelection_MyXGBoostClassifier_performance.png) |
 
 #### 6.2 Further Improvements
 

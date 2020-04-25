@@ -419,9 +419,9 @@ Implementing these two rules, we calculate the return of the strategies and Figu
 
 #### 6.1 Conclusion 
 
-In our project, we build a timing strategy based on the prediction of WindA's performance the next day. And we build 5 feature selection models and 6 classifiers to train models. After trying all combinations of feature selection models and classifiers, we find that combination of naive selection and XGBoost can show the best strategy performance. 
+In our project, we build a timing strategy based on the prediction of WindA's performance the next day. And we build 5 feature selection models and 6 classifiers to train models. After trying all combinations of feature selection models and classifiers, we find that combination of naive selection and XGBoost can show the best strategy performance. Table 5 below shows performances of four strategy combinations. We implement precision and F1-score as the accuracy indicators rather than recall is because we want to make sure that the signals we predict are real opportunities so that we do not lose money on wrong signals (so precision is important) but we do not need to predict all the correct signals (so recall is not that important). The selection methods do not set hypeparameters.
 
-Table 5. Performances of each strategy combination
+<p align="center">Table 5. Performances of each strategy combination</p>
 
 | strategy combination | naive selection+XGBoost                                      | PCA+KNN                                                      |
 | -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -429,7 +429,7 @@ Table 5. Performances of each strategy combination
 | max draw down        | 42.06%                                                       | 65.36%                                                       |
 | precision            | 0.56902                                                      | 0.57159                                                      |
 | F1-score             | 0.58705                                                      | 0.56694                                                      |
-| parameters           |                                                              | paraKNN = {'n_neighbors':15,            'weights':'uniform'} |
+| parameters           | `paraXGBoost = {'model_seed':100,                'n_estimators':100,                'max_depth':3,                'learning_rate':0.1,                'min_child_weight':1}` | `paraKNN = {'n_neighbors':15,            'weights':'uniform'}` |
 | return figure        | ![images](05%20rolling prediction/outputResults/naiveSelection_MyXGBoostClassifier/naiveSelection_MyXGBoostClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/pcaSelection_MyKNNClassifier/pcaSelection_MyKNNClassifier_performance.png) |
 
 | strategy combination | tree selection+logistic regression                           | SVM(L1) +naive Bayes                                         |
@@ -438,12 +438,34 @@ Table 5. Performances of each strategy combination
 | max draw down        | 56.49%                                                       | 69.06%                                                       |
 | precision            | 0.55636                                                      | 0.34407                                                      |
 | F1-score             | 0.65394                                                      | 0.24248                                                      |
-| parameters           |                                                              |                                                              |
+| parameters           | no hyperparameters set                                       | no hyperparameters set                                       |
 | return figure        | ![images](05%20rolling prediction/outputResults/windA_treeSelection_MyLogisticRegClassifier/windA_treeSelection_MyLogisticRegClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/windA_SVCL1Selection_MyNaiveBayesClassifier/windA_SVCL1Selection_MyNaiveBayesClassifier_performance.png) |
 
 Also, we compare two strategies, pure long strategy and long-short strategy, both of which are better than simple holding strategy. Moreover, long-short strategy has better performance, with 406.83% total compounded yield rate from February 25, 2005 to March 18, 2020 and 1.25 daily Sharpe ratio.
 
-#### 6.2 Further Improvemrnts
+We also implement naive selection + XGBoost on three other main indexes in China A-Share market, namely HS300, ZZ500 and ZZ800. The performances are listed as follows in Table 6.
+
+<p align="center">Table 6. Performances of four indexes (naive selection+XGBoost)</p>
+
+| index         | windA                                                        | HS300                                                        |
+| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Sharpe ratio  | 1.25                                                         | 0.36                                                         |
+| max draw down | 42.06%                                                       | 41.30%                                                       |
+| precision     | 0.56902                                                      | 0.55178                                                      |
+| F1-score      | 0.58705                                                      | 0.55641                                                      |
+| parameters    | `paraXGBoost = {'model_seed':100,                'n_estimators':100,                'max_depth':3,                'learning_rate':0.1,                'min_child_weight':1}` | `paraXGBoost = {'model_seed':100,                'n_estimators':100,                'max_depth':3,                'learning_rate':0.1,                'min_child_weight':1}` |
+| return figure | ![images](05%20rolling prediction/outputResults/naiveSelection_MyXGBoostClassifier/naiveSelection_MyXGBoostClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/hs300_naiveSelection_MyXGBoostClassifier/hs300_naiveSelection_MyXGBoostClassifier_performance.png) |
+
+| index         | ZZ500                                                        | ZZ800                                                        |
+| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Sharpe ratio  | 1.46                                                         | 0.79                                                         |
+| max draw down | 41.66%                                                       | 32.41%                                                       |
+| precision     | 0.55212                                                      | 0.54750                                                      |
+| F1-score      | 0.58988                                                      | 0.54074                                                      |
+| parameters    | `paraXGBoost = {'model_seed':100,                'n_estimators':100,                'max_depth':3,                'learning_rate':0.1,                'min_child_weight':1}` | `paraXGBoost = {'model_seed':100,                'n_estimators':100,                'max_depth':3,                'learning_rate':0.1,                'min_child_weight':1}` |
+| return figure | ![images](05%20rolling prediction/outputResults/zz500_naiveSelection_MyXGBoostClassifier/zz500_naiveSelection_MyXGBoostClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/zz800_naiveSelection_MyXGBoostClassifier/zz800_naiveSelection_MyXGBoostClassifier_performance.png) |
+
+#### 6.2 Further Improvements
 
 1. Correlation between our features is high, more low-correlation features can be added to improve our model.
 2. Tune the hyperparameters of the model and find better hyperparameters for each model.

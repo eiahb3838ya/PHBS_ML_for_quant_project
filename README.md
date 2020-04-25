@@ -141,7 +141,7 @@ We compute the daily return of WindA index and label each day based on the retur
 
 #### 2.3 Tackle with NaN
 
-Then we compute the number of NaN in each factor, as shown in Figure 4. After we [drop NaN](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/tackleWithNaN%26Extreme.ipynb) including non-trading day data and other missing data, we get a dataframe including 2,903 observations. Cleaned factors are in the [cleanedFactor](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/cleanedFactor.csv).
+Then we compute the number of NaN in each factor, as shown in Figure 4. After we [drop NaN](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/tackleWithNaN%26Extreme.ipynb) including non-trading day data and other missing data, we get a DataFrame including 2,903 observations. Cleaned factors are in the [cleanedFactor](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/cleanedFactor.csv).
 All data are [concated](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/02%20data%20process/concatAllDf.ipynb). 
 
 ![images](10%20readmeMaterial/NaN.png)
@@ -175,7 +175,7 @@ Here we build five models to [select features](https://github.com/eiahb3838ya/PH
 * [treeSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/treeSelection.py)
 * [varianceThresholdSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/varianceThresholdSelection.py)
 
-To avoid high correlation among features as much as possible, we can choose [LASSO in SVC model](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/SVCL1Selection.py). To find the most import features, we can choose pca methods. Also, XGBoost includes feature selection itself. Morever, to make it easy to call feature selection model, we encapsulate them as standard functions.
+To avoid high correlation among features as much as possible, we can choose [LASSO in SVC model](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/SVCL1Selection.py). To find the most import features, we can choose PCA methods. Also, XGBoost includes feature selection itself. Moreover, to make it easy to call feature selection model, we encapsulate them as standard functions.
 
 Below is a sample feature selection function ([pcaSelection.py](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/blob/master/03%20feature%20selection/pcaSelection.py)). As we can see, 12 PCA components can explain 82% of total variance, so we consider that 12 is the proper number of features to work with. 
 
@@ -361,6 +361,16 @@ attribute after fitting a XGBoost Classifier. By executing the code, we can see 
 
 <p align="center">Figure 6. The feature importance from XGBoost model</p>
 
+Table 4 below shows how much portion explained by different numbers of components.
+
+<p align="center">Table 4. Portion explained by different numbers of components</p>
+
+| #of components    | 3    | 6    | 8    | 10   | 12   |
+| ----------------- | ---- | ---- | ---- | ---- | ---- |
+| portion explained | 48%  | 65%  | 74%  | 79%  | 82%  |
+
+As we can see, when we pick the top 12 components, we can approximately explain 82% of the data and we have tested that increase the number more does not effect much but will significantly increase variance, therefore we implement 12 components in selection.
+
 #### 3.3 Rolling Prediction
 
 As 1.6 has already explained, we implement an expanding window prediction procedure to predict future price trends of WindA. Based on the predictions, we make our decisions about when to buy/long and when to sell/short. Figure 7 shows the buy and sell points during the whole process ([naiveSelection+XGBoost](https://github.com/eiahb3838ya/PHBS_ML_for_quant_project/tree/master/05%20rolling%20prediction/outputResults/naiveSelection_MyXGBoostClassifier), the below figures all using this pair).
@@ -442,6 +452,10 @@ In our project, we build a timing strategy based on the prediction of WindA's pe
 | return figure        | ![images](05%20rolling prediction/outputResults/windA_treeSelection_MyLogisticRegClassifier/windA_treeSelection_MyLogisticRegClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/windA_SVCL1Selection_MyNaiveBayesClassifier/windA_SVCL1Selection_MyNaiveBayesClassifier_performance.png) |
 
 Also, we compare two strategies, pure long strategy and long-short strategy, both of which are better than simple holding strategy. Moreover, long-short strategy has better performance, with 406.83% total compounded yield rate from February 25, 2005 to March 18, 2020 and 1.25 daily Sharpe ratio.
+
+Basically, XGBoost (of original manuscripts) for classification can be divided into the following 2 parts: (A) Gradient boosting + regularization + XGBoost decision tree. (B). For large/complicated dataset only: (algorithm optimization) approximate greedy algorithm + parallel learning + weighted quantile sketch + (dealing with missing data)sparsity-aware split finding + (hardware acceleration)cache-aware access + blocks for out-of-core computation major **hyperparameters** that will be covered includes:$\gamma$(gaining threshold, used for pruning), cover(control minimum size of each leaf), $\lambda$(regularization parameter)Compared to AdaBoost, gradient boosting algorithm use same weight(aka. learning rate $\eta$) for each tree in iteration. Technically, in each iteration, the predicted value, which is log of odds for classification is updated by:$$F_m(x) = F_{m-1}(x) + \eta \times O_{m}(x)$$ where $x$ is a data point, $O_{m}(x)$ is the output value of data point $x$ in $m$-th XGBoost tree(aka. the predicted/output value in leaf node), $F_m(x), F_{m-1}(x)$ are the predicted log odds (aka. $log(prob./1-prob.)$) value of data point $x$.What's also worth emphasizing in the model part is that, when growing $m$-th tree, if not specified, XGBoost will grow a tree greedily, which literally means trying all possible partition and choosing the one with greatest gain(which is defined by right_child_node similarity + left_child_node_similarity - parent_node_similarity). After growing the tree, the pruning step is followed, one way to prune is simply computing whether the best gain excessed $\gamma$ threshold or not.
+
+As XGBoost implements such an ensemble approach and an automatic feature selection function, this model shows better performance than other models. The 55% precision is actually not bad in the stock market because we can only train the historical data and implement no cross validation to reduce the model variance. The result matches what the research paper of Xingye Securities shows.
 
 We also implement naive selection + XGBoost on three other main indexes in China A-Share market, namely HS300, ZZ500 and ZZ800. The performances are listed as follows in Table 6.
 

@@ -425,15 +425,21 @@ Table 5. Performances of each strategy combination
 
 | strategy combination | naive selection+XGBoost                                      | PCA+KNN                                                      |
 | -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Sharpe ratio         | 1.25                                                         |                                                              |
-| max draw down        | -42.06%                                                      |                                                              |
-| precision            | 0.                                                           | 0.72                                                         |
-| recall               | 0.75                                                         |                                                              |
-| F1-score             | 0.70                                                         |                                                              |
-| parameters           |                                                              |                                                              |
+| Sharpe ratio         | 1.25                                                         | -0.14                                                        |
+| max draw down        | 42.06%                                                       | 65.36%                                                       |
+| precision            | 0.56902                                                      | 0.57159                                                      |
+| F1-score             | 0.58705                                                      | 0.56694                                                      |
+| parameters           |                                                              | paraKNN = {'n_neighbors':15,            'weights':'uniform'} |
 | return figure        | ![images](05%20rolling prediction/outputResults/naiveSelection_MyXGBoostClassifier/naiveSelection_MyXGBoostClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/pcaSelection_MyKNNClassifier/pcaSelection_MyKNNClassifier_performance.png) |
 
-
+| strategy combination | tree selection+logistic regression                           | SVM(L1) +naive Bayes                                         |
+| -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Sharpe ratio         | 0.47                                                         | -0.03                                                        |
+| max draw down        | 56.49%                                                       | 69.06%                                                       |
+| precision            | 0.55636                                                      | 0.34407                                                      |
+| F1-score             | 0.65394                                                      | 0.24248                                                      |
+| parameters           |                                                              |                                                              |
+| return figure        | ![images](05%20rolling prediction/outputResults/windA_treeSelection_MyLogisticRegClassifier/windA_treeSelection_MyLogisticRegClassifier_performance.png) | ![images](05%20rolling prediction/outputResults/windA_SVCL1Selection_MyNaiveBayesClassifier/windA_SVCL1Selection_MyNaiveBayesClassifier_performance.png) |
 
 Also, we compare two strategies, pure long strategy and long-short strategy, both of which are better than simple holding strategy. Moreover, long-short strategy has better performance, with 406.83% total compounded yield rate from February 25, 2005 to March 18, 2020 and 1.25 daily Sharpe ratio.
 

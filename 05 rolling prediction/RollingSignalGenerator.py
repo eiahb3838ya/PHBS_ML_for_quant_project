@@ -31,7 +31,7 @@ sys.path.append(os.path.join(ROOT, '04 build classifier model'))
 from MyDecisionTreeClassifier import MyDecisionTreeClassifier
 from MyClassifier import *
 from MySVMClassifier import MySVMClassifier
-from MyXGBoostClassifier import MyXGBoostClassifier
+# from MyXGBoostClassifier import MyXGBoostClassifier
 # <<<<<<< HEAD
 # from MyDeepLearningClassifier import MyDeepLearningClassifier
 # =======
@@ -174,10 +174,10 @@ if __name__ =='__main__':
     TRAIN_MODE = 'extention'
     recordModels = True
     
-    index = 'zz800'
-    selector = naiveSelection
+    index = 'windA'
+    selector = SVCL1Selection
     # myPredictModel = MyDecisionTreeClassifier
-    myPredictModel =  MyXGBoostClassifier
+    myPredictModel =  MyNaiveBayesClassifier
     # myPredictModel = MyDeepLearningClassifier
     
 #%% get up or down result of index in the next trade day

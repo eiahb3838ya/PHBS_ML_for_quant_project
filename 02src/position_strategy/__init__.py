@@ -1,0 +1,1 @@
+from .strategy import simple_strategy
